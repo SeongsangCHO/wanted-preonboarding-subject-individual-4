@@ -1,4 +1,4 @@
-import { Action } from "store/actions/todo";
+import { TodoAction } from "store/actions/todo";
 
 export interface ITodoList {
   count: number;
@@ -11,4 +11,3 @@ export interface ITodo {
   isCheck: boolean;
   createdAt: Date;
 }
-
