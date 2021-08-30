@@ -1,7 +1,12 @@
+import AAA from "components";
 import React from "react";
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      <AAA />
+    </div>
+  );
 }
 
 export default App;
