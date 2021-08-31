@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { ITodo } from "types/todo";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import {
   requestCheckTodoItem,
@@ -8,6 +8,11 @@ import {
   requestEditTodoItem,
 } from "store/actions/todo";
 import { useState } from "react";
+import { ReactComponent as CheckIcon } from "assets/Check.svg";
+import { ReactComponent as DeleteIcon } from "assets/Trash.svg";
+import { ReactComponent as EditIcon } from "assets/Edit.svg";
+import { ReactComponent as EditDoneIcon } from "assets/Editdone.svg";
+import { Shadow } from "styles/mixin";
 
 interface IProps {
   todo: ITodo;
@@ -22,27 +27,44 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
       todoTextRef.current.focus();
     }
   }, [isEdit]);
+  const editRequest = () => {
+    if (isEdit && todoTextRef.current) {
+      dispatch(requestEditTodoItem({ id: todo.id, content: todoTextRef.current?.innerText }));
+    }
+  };
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsEdit((prev) => !prev);
-    if (isEdit && todoTextRef.current) {
-      //수정사항 반영 dispatch
-      dispatch(requestEditTodoItem({ id: todo.id, content: todoTextRef.current?.innerText }));
-      // ref로 데이터 넘기기 기
-    } else {
-      // 아무일도 없음
+    editRequest();
+  };
+  const handleEditDone = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (e.key === "Enter") {
+      setIsEdit(false);
+      editRequest();
     }
   };
   return (
     <Container>
       <LeftSide>
-        <button onClick={() => dispatch(requestCheckTodoItem(todo.id))}>체크박스</button>
-        <TodoText contentEditable={isEdit} suppressContentEditableWarning={true} ref={todoTextRef}>
+        <CheckButton onClick={() => dispatch(requestCheckTodoItem(todo.id))}>
+          {todo.isCheck && <CheckIcon />}
+        </CheckButton>
+        <TodoText
+          isCheck={todo.isCheck}
+          contentEditable={isEdit}
+          suppressContentEditableWarning={true}
+          ref={todoTextRef}
+          onKeyDown={handleEditDone}
+        >
           {todo.content}
         </TodoText>
       </LeftSide>
       <RightSide>
-        <EditButton onClick={handleEdit}>{isEdit ? "완료버튼" : "수정버튼"}</EditButton>
-        <button onClick={() => dispatch(requestDeleteTodoItem(todo.id))}>삭제버튼버튼</button>
+        <EditButton onClick={handleEdit}>
+          {isEdit ? <EditDoneIcon className="edit-done" /> : <EditIcon className="edit" />}
+        </EditButton>
+        <DeleteButton onClick={() => dispatch(requestDeleteTodoItem(todo.id))}>
+          <DeleteIcon className="delete" />
+        </DeleteButton>
       </RightSide>
     </Container>
   );
@@ -54,10 +76,66 @@ const Container = styled.li`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 60px;
   border-bottom: 1px solid #827a7a;
 `;
-const EditButton = styled.button``;
-const LeftSide = styled.div``;
-const TodoText = styled.span``;
-const RightSide = styled.div``;
+const CheckButton = styled.button`
+  ${Shadow}
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  & svg {
+    width: 25px;
+    height: 20px;
+  }
+`;
+
+const EditButton = styled.button`
+  width: 25px;
+  border: none;
+  background-color: white;
+  margin-right: 24px;
+
+  & svg.edit {
+    width: 30px;
+    height: 30px;
+  }
+  & svg.edit-done {
+    width: 28px;
+    height: 28px;
+  }
+`;
+const LeftSide = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const TodoText = styled.span<{ isCheck: boolean }>`
+  width: 100%;
+  line-height: 40px;
+  margin-left: 10px;
+  font-size: 24px;
+  &:focus-visible {
+    outline: none;
+    border: 1px solid ${({ theme }) => theme.colors.primary};
+  }
+  ${(props) =>
+    props.isCheck &&
+    css`
+      text-decoration-line: line-through;
+      color: ${({ theme }) => theme.colors.gray};
+    `}
+`;
+const RightSide = styled.div`
+  height: 100%;
+  padding-top: 10px;
+`;
+
+const DeleteButton = styled.button`
+  border: none;
+  background-color: white;
+  & svg.delete {
+    width: 32px;
+    height: 32px;
+  }
+`;

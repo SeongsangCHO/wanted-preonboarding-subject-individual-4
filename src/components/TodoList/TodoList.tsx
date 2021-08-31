@@ -1,7 +1,8 @@
 import useTodoState from "hooks/useTodoState";
 import React from "react";
-import TodoItem from "./TodoItem";
 import styled from "styled-components";
+import TodoItem from "components/TodoList/TodoItem";
+import CommonButton from "components/common/Button";
 interface IProps {}
 
 const TodoList: React.FC<IProps> = ({}) => {

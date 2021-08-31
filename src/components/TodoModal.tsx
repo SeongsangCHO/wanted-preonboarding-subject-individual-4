@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
 import { requestAddTodoItem } from "store/actions/todo";
 import { useDispatch } from "react-redux";
+import { Shadow } from "styles/mixin";
 registerLocale("ko", ko);
 interface IProps {}
 
@@ -96,26 +97,24 @@ const ModalContent = styled.div`
   & label {
     width: 20px;
     height: 20px;
-    /* position: relative; */
   }
   & label svg {
     top: 0;
     left: 0;
-    /* position: absolute; */
     width: 20px;
     height: 20px;
   }
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 90%;
   max-width: 720px;
   height: 100px;
   position: absolute;
   left: 50%;
-  top: 30%;
+  top: 20%;
   transform: translate(-50%, 0);
-  box-shadow: 1px 1px 6px 0px #000000;
+  ${Shadow};
   border-radius: 20px;
   background-color: white;
   padding: 0 15px;

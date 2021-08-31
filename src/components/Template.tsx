@@ -15,5 +15,4 @@ const Container = styled.main`
   width: 100%;
   padding: 24px;
   margin: 0 auto;
-  border: 1px solid black;
 `;
