@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { ITodo } from "types/todo";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { requestCheckTodoItem, requestDeleteTodoItem } from "store/actions/todo";
+import { useState } from "react";
 
 interface IProps {
   todo: ITodo;
@@ -10,14 +11,31 @@ interface IProps {
 
 const TodoItem: React.FC<IProps> = ({ todo }) => {
   const dispatch = useDispatch();
+  const [isEdit, setIsEdit] = useState(false);
+  const todoTextRef = useRef<HTMLSpanElement | null>(null);
+  useEffect(() => {
+    if (todoTextRef.current) {
+      todoTextRef.current.focus();
+    }
+  }, [isEdit]);
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setIsEdit((prev) => !prev);
+    if (isEdit) {
+      //수정사항 반영 dispatch
+    } else {
+      // 아무일도 없음
+    }
+  };
   return (
     <Container>
       <LeftSide>
         <button onClick={() => dispatch(requestCheckTodoItem(todo.id))}>체크박스</button>
-        {todo.content}
+        <TodoText contentEditable={isEdit} suppressContentEditableWarning={true} ref={todoTextRef}>
+          {todo.content}
+        </TodoText>
       </LeftSide>
       <RightSide>
-        <button>수정버튼</button>
+        <EditButton onClick={handleEdit}>{isEdit ? "완료버튼" : "수정버튼"}</EditButton>
         <button onClick={() => dispatch(requestDeleteTodoItem(todo.id))}>삭제버튼버튼</button>
       </RightSide>
     </Container>
@@ -25,7 +43,7 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
 };
 export default TodoItem;
 
-const Container = styled.div`
+const Container = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,5 +51,7 @@ const Container = styled.div`
   height: 50px;
   border-bottom: 1px solid #827a7a;
 `;
+const EditButton = styled.button``;
 const LeftSide = styled.div``;
+const TodoText = styled.span``;
 const RightSide = styled.div``;
