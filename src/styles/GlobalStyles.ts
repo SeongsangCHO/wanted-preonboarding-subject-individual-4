@@ -13,7 +13,15 @@ const GlobalStyle = createGlobalStyle`
   .react-datepicker__input-container,
   .react-datepicker__input-container input {
     width: 0px;
+    position: absolute;
+    left: 25px;
   }
+  .react-datepicker{
+    position: absolute;
+    top: 30px;
+    left: -20px;
+  }
+
 `;
 
 export default GlobalStyle;

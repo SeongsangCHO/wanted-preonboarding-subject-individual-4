@@ -45,6 +45,8 @@ const TodoModal: React.FC<IProps> = ({}) => {
               <Calendar />
             </label>
             <StyledDatePicker
+              // popperPlacement="bottom"
+              popperPlacement="auto"
               minDate={new Date()}
               locale="ko"
               id="date-picker"
