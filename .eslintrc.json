@@ -24,6 +24,6 @@
         "error",
         "always"
       ],
-      "quotes": ["error", "double"]
+      "quotes": ["off", "single"]
     }
 }

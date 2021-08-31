@@ -5,8 +5,8 @@ import React from "react";
 interface IProps {}
 
 const AAA: React.FC<IProps> = ({}) => {
-  const { todoState, dispatch } = useTodoState();
-  const { modalState, dispatch: mDispatch } = useModalState();
+  const { todoState } = useTodoState();
+  const { modalState } = useModalState();
   console.log(todoState, modalState);
 
   return <div></div>;

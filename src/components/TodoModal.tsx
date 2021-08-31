@@ -7,10 +7,14 @@ import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import { ReactComponent as Calendar } from "assets/calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
+import useTodoState from "hooks/useTodoState";
+import { requestGetTodosList } from "store/actions/todo";
+import { useDispatch } from "react-redux";
 registerLocale("ko", ko);
 interface IProps {}
 
 const TodoModal: React.FC<IProps> = ({}) => {
+  const dispatch = useDispatch();
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const handleDate = (date: Date | null) => {
     console.log(date);
@@ -18,8 +22,10 @@ const TodoModal: React.FC<IProps> = ({}) => {
   };
   const {
     modalState: { showModal: showModal },
-    dispatch,
   } = useModalState();
+  const { todoState } = useTodoState();
+  console.log(todoState);
+
   if (!showModal) return <></>;
   return (
     <Portal>
@@ -43,7 +49,7 @@ const TodoModal: React.FC<IProps> = ({}) => {
             />
             <ButtonContainer>
               <button onClick={() => dispatch(closeModal())}>cancel</button>
-              <button>Add Task</button>
+              <button onClick={() => dispatch(requestGetTodosList())}>Add Task</button>
             </ButtonContainer>
           </Bottom>
         </ModalContent>
