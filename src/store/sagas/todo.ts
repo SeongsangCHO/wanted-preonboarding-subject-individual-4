@@ -1,9 +1,16 @@
-import { takeLatest } from "redux-saga/effects";
+import { call, delay, takeLatest } from "redux-saga/effects";
+import { GET_TODOS_LIST_REQUEST } from "store/actions/types";
+import { getLocalStorage } from "utils/storage";
 
-function* 워커함수() {}
+function* watchGetTodosList() {
+  yield delay(2000);
+  console.log("watchGetTodosList실행");
+  // const res = yield call(getLocalStorage, "todos");
+  // console.log(res);
+}
 
 function* todoSaga() {
-  yield takeLatest("요청트리거", 워커함수);
+  yield takeLatest(GET_TODOS_LIST_REQUEST, watchGetTodosList);
 }
 
 export default todoSaga;

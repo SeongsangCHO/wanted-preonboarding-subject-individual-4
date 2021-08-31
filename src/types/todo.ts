@@ -1,8 +1,15 @@
-import { Action } from "store/actions/todo";
+import { TodoAction } from "store/actions/todo";
+
+export interface ITodoRequestStatus {
+  loading: boolean;
+  success: boolean;
+  failure: boolean;
+}
 
 export interface ITodoList {
   count: number;
   todoList: ITodo[];
+  status: ITodoRequestStatus;
 }
 
 export interface ITodo {
@@ -11,4 +18,3 @@ export interface ITodo {
   isCheck: boolean;
   createdAt: Date;
 }
-
