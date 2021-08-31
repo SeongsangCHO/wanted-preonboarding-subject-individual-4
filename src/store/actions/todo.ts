@@ -32,10 +32,10 @@ export const failureGetTodosList = () => {
   };
 };
 
-export const requestAddTodoItem = (content: string) => {
+export const requestAddTodoItem = (data: { content: string; goalDate: string }) => {
   return {
     type: ADD_TODO_ITEM_REQUEST,
-    content,
+    payload: data,
   };
 };
 

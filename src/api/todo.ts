@@ -24,9 +24,9 @@ export const checkTodoItem = (id: string): IResponse => {
   const res = GET.UPDATE_TODO_ITEM_CHECK(`${BASE_URL}/${END_POINT.todo}/${id}`);
   return res;
 };
-export const createTodoItem = (content: string): IResponse => {
+export const createTodoItem = (data: { content: string; goalDate: string }): IResponse => {
   //backend로 content데이터를 저장하기 위해 요청하는 함수입니다.
-  const res = POST.CREATE_TODO_ITEM(`${BASE_URL}/${END_POINT.todo}`, { content });
+  const res = POST.CREATE_TODO_ITEM(`${BASE_URL}/${END_POINT.todo}`, data);
   return res;
 };
 

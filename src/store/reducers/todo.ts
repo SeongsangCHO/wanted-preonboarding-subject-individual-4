@@ -11,7 +11,6 @@ import {
   EDIT_TODO_ITEM_SUCCESS,
 } from "store/actions/types";
 import { getLocalStorage } from "utils/backend/storage";
-import { createKRdate } from "utils/date";
 
 export const STATUS = {
   Loading: "loading",
@@ -24,25 +23,6 @@ const initState: ITodoList = {
   todoList: [],
   status: STATUS.Loading,
   // 로딩유무 추가
-};
-
-const getLastId = (): string => {
-  const data = getLocalStorage("todos");
-  if (data && data.count !== 0) {
-    console.log(data.todoList[data.todoList.length - 1].id.toString());
-
-    return (parseInt(data.todoList[data.todoList.length - 1].id) + 1).toString();
-  }
-  return "1";
-};
-
-export const newTodoGen = (content: string): ITodo => {
-  return {
-    id: getLastId(),
-    content,
-    isCheck: false,
-    createdAt: createKRdate(),
-  };
 };
 
 const TodoReducer = (state = initState, action: TodoAction): ITodoList => {

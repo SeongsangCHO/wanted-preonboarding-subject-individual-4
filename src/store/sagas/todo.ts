@@ -34,7 +34,7 @@ function* watchGetTodosList() {
 
 function* watchAddTodoItem(action: ReturnType<typeof requestAddTodoItem>) {
   yield delay(1000);
-  const res: API.IResponse = yield call(API.createTodoItem, action.content);
+  const res: API.IResponse = yield call(API.createTodoItem, action.payload);
   if (res.status === 200) {
     yield put(addTodoItem(res.data!));
   } else {

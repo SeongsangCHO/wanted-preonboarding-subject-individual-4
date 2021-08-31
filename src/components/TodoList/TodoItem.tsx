@@ -13,6 +13,7 @@ import { ReactComponent as DeleteIcon } from "assets/trash.svg";
 import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as EditDoneIcon } from "assets/editdone.svg";
 import { Shadow } from "styles/mixin";
+import { dateToDday } from "utils/date";
 
 interface IProps {
   todo: ITodo;
@@ -22,6 +23,7 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
   const todoTextRef = useRef<HTMLSpanElement | null>(null);
+  const dDay = dateToDday(todo.goalDate?.toLocaleString()!);
   useEffect(() => {
     if (todoTextRef.current) {
       todoTextRef.current.focus();
@@ -63,7 +65,7 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
         </TodoText>
       </LeftSide>
       <RightSide>
-        <DdayText>D-18</DdayText>
+        <DdayText>{dDay === 0 ? "Until Today" : `D-${dDay}`}</DdayText>
         <EditButton onClick={handleEdit}>
           {isEdit ? <EditDoneIcon className="edit-done" /> : <EditIcon className="edit" />}
         </EditButton>
@@ -149,7 +151,7 @@ const TodoText = styled.span<{ isCheck: boolean }>`
       color: ${({ theme }) => theme.colors.gray};
     `}
   @media screen and (max-width: 767px) {
-    max-width: 260px;
+    max-width: 220px;
   }
   @media screen and (min-width: 768px) {
     max-width: 480px;

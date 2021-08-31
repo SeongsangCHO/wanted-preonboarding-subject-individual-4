@@ -3,7 +3,7 @@ import React, { ChangeEvent, useState } from "react";
 import { closeModal } from "store/actions/modal";
 import Portal from "./Portal/Portal";
 import styled from "styled-components";
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import { ReactComponent as Calendar } from "assets/calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
@@ -11,18 +11,16 @@ import { requestAddTodoItem } from "store/actions/todo";
 import { useDispatch } from "react-redux";
 import { Shadow } from "styles/mixin";
 import CommonButton from "components/common/Button";
-import { createKRdate } from "utils/date";
+import moment from "moment";
 
-registerLocale("ko", ko);
 interface IProps {}
 
 const TodoModal: React.FC<IProps> = ({}) => {
   const dispatch = useDispatch();
-  const [startDate, setStartDate] = useState<Date | null>(createKRdate());
+  const [goalDate, setGoalDate] = useState<Date>(moment().toDate());
   const [taskText, setTaskText] = useState("");
-  const handleDate = (date: Date | null) => {
-    setStartDate(date);
-    console.log(date);
+  const handleDate = (date: Date) => {
+    setGoalDate(date);
   };
   const {
     modalState: { showModal: showModal },
@@ -33,16 +31,17 @@ const TodoModal: React.FC<IProps> = ({}) => {
     setTaskText(value);
   };
   const handleSumbit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(requestAddTodoItem(taskText));
+    dispatch(requestAddTodoItem({ content: taskText, goalDate: moment(goalDate).toISOString() }));
     dispatch(closeModal());
     setTaskText("");
+    setGoalDate(moment().toDate());
   };
   if (!showModal) return <></>;
   return (
     <Portal>
       <TodoModalDim>
         <ModalContent>
-          <GoalDateText>Goal: {startDate?.toDateString()}</GoalDateText>
+          <GoalDateText>Goal Date - {moment(goalDate).format("yyyy/MM/DD")}</GoalDateText>
           <TodoInput placeholder="Add a Task" value={taskText} onChange={handleInput}></TodoInput>
           <Bottom>
             <label htmlFor="date-picker" tabIndex={0}>
@@ -50,15 +49,12 @@ const TodoModal: React.FC<IProps> = ({}) => {
             </label>
             <StyledDatePicker
               popperPlacement="left-end"
-              // popperPlacement="auto"
-              minDate={createKRdate()}
-              locale="ko"
+              minDate={moment().toDate()}
               id="date-picker"
-              selected={startDate}
+              selected={goalDate}
               onChange={handleDate}
               dateFormat="yyyy/MM/dd"
               className="date-picker"
-              // placeholderText="Set Goal Date"
             />
             <ButtonContainer>
               <CloseButton onClick={() => dispatch(closeModal())}>Cancel</CloseButton>
