@@ -45,8 +45,8 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
   return (
     <Container>
       <LeftSide>
-        <CheckButton onClick={() => dispatch(requestCheckTodoItem(todo.id))}>
-          {todo.isCheck && <CheckIcon />}
+        <CheckButton isCheck={todo.isCheck} onClick={() => dispatch(requestCheckTodoItem(todo.id))}>
+          <CheckIcon className="check" />
         </CheckButton>
         <TodoText
           isCheck={todo.isCheck}
@@ -79,31 +79,45 @@ const Container = styled.li`
   height: 60px;
   border-bottom: 1px solid #827a7a;
 `;
-const CheckButton = styled.button`
+const CheckButton = styled.button<{ isCheck: boolean }>`
+  cursor: pointer;
   ${Shadow}
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   border-radius: 50%;
   border: none;
-  & svg {
+  & .check {
+    opacity: 0;
     width: 25px;
     height: 20px;
   }
+
+  ${(props) =>
+    props.isCheck
+      ? css`
+          & .check {
+            opacity: 1;
+          }
+        `
+      : css`
+          &:hover {
+            & .check {
+              opacity: 0.6;
+            }
+          }
+        `}
 `;
 
 const EditButton = styled.button`
-  width: 25px;
   border: none;
   background-color: white;
-  margin-right: 24px;
-
   & svg.edit {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
   }
   & svg.edit-done {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
   }
 `;
 const LeftSide = styled.div`
@@ -112,9 +126,12 @@ const LeftSide = styled.div`
 `;
 const TodoText = styled.span<{ isCheck: boolean }>`
   width: 100%;
+  max-width: 580px;
   line-height: 40px;
   margin-left: 10px;
-  font-size: 24px;
+  font-size: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &:focus-visible {
     outline: none;
     border: 1px solid ${({ theme }) => theme.colors.primary};
@@ -125,6 +142,12 @@ const TodoText = styled.span<{ isCheck: boolean }>`
       text-decoration-line: line-through;
       color: ${({ theme }) => theme.colors.gray};
     `}
+  @media screen and (max-width: 768px) {
+    max-width: 320px;
+  }
+  @media screen and (max-width: 512px) {
+    max-width: 280px;
+  }
 `;
 const RightSide = styled.div`
   height: 100%;
