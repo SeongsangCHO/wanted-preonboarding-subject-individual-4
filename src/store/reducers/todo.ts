@@ -8,6 +8,7 @@ import {
   ADD_TODO_ITEM_REQUEST,
   CHECK_TODO_ITEM_SUCCESS,
   DELETE_TODO_ITEM_SUCCESS,
+  EDIT_TODO_ITEM_SUCCESS,
 } from "store/actions/types";
 import { getLocalStorage } from "utils/backend/storage";
 
@@ -88,6 +89,18 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
       return {
         ...state,
         todoList: state.todoList.filter((item) => item.id !== action.id),
+      };
+    case EDIT_TODO_ITEM_SUCCESS:
+      return {
+        ...state,
+        todoList: state.todoList.map((item) =>
+          item.id === action.payload.id
+            ? {
+                ...item,
+                content: action.payload.content,
+              }
+            : item,
+        ),
       };
     default:
       return state;

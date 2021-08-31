@@ -2,7 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { ITodo } from "types/todo";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { requestCheckTodoItem, requestDeleteTodoItem } from "store/actions/todo";
+import {
+  requestCheckTodoItem,
+  requestDeleteTodoItem,
+  requestEditTodoItem,
+} from "store/actions/todo";
 import { useState } from "react";
 
 interface IProps {
@@ -20,8 +24,10 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
   }, [isEdit]);
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsEdit((prev) => !prev);
-    if (isEdit) {
+    if (isEdit && todoTextRef.current) {
       //수정사항 반영 dispatch
+      dispatch(requestEditTodoItem({ id: todo.id, content: todoTextRef.current?.innerText }));
+      // ref로 데이터 넘기기 기
     } else {
       // 아무일도 없음
     }
