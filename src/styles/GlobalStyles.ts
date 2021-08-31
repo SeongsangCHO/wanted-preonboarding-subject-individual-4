@@ -18,8 +18,8 @@ const GlobalStyle = createGlobalStyle`
   }
   .react-datepicker{
     position: absolute;
-    top: 30px;
-    left: -20px;
+    top: 37px;
+    left: -18px;
   }
 
 `;

@@ -10,15 +10,19 @@ import ko from "date-fns/locale/ko";
 import { requestAddTodoItem } from "store/actions/todo";
 import { useDispatch } from "react-redux";
 import { Shadow } from "styles/mixin";
+import CommonButton from "./common/Button";
+import { createKRdate } from "utils/date";
+
 registerLocale("ko", ko);
 interface IProps {}
 
 const TodoModal: React.FC<IProps> = ({}) => {
   const dispatch = useDispatch();
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(createKRdate());
   const [taskText, setTaskText] = useState("");
   const handleDate = (date: Date | null) => {
     setStartDate(date);
+    console.log(date);
   };
   const {
     modalState: { showModal: showModal },
@@ -45,9 +49,9 @@ const TodoModal: React.FC<IProps> = ({}) => {
               <Calendar />
             </label>
             <StyledDatePicker
-              // popperPlacement="bottom"
-              popperPlacement="auto"
-              minDate={new Date()}
+              popperPlacement="left-end"
+              // popperPlacement="auto"
+              minDate={createKRdate()}
               locale="ko"
               id="date-picker"
               selected={startDate}
@@ -57,8 +61,8 @@ const TodoModal: React.FC<IProps> = ({}) => {
               // placeholderText="Set Goal Date"
             />
             <ButtonContainer>
-              <button onClick={() => dispatch(closeModal())}>cancel</button>
-              <button onClick={handleSumbit}>Add Task</button>
+              <CloseButton onClick={() => dispatch(closeModal())}>Cancel</CloseButton>
+              <AddTaskButton onClick={handleSumbit}>Add Task</AddTaskButton>
             </ButtonContainer>
           </Bottom>
         </ModalContent>
@@ -67,11 +71,20 @@ const TodoModal: React.FC<IProps> = ({}) => {
   );
 };
 export default TodoModal;
-const ButtonContainer = styled.div`
-  & button + button {
-    margin-left: 5px;
-  }
+const CloseButton = styled(CommonButton)`
+  width: 70px;
+  height: 28px;
+  background-color: white;
 `;
+const AddTaskButton = styled(CommonButton)`
+  width: 70px;
+  height: 28px;
+  margin-left: 12px;
+  color: white;
+  background-color: ${({ theme }) => theme.colors.primary};
+`;
+
+const ButtonContainer = styled.div``;
 const Bottom = styled.div`
   display: flex;
   width: 100%;
@@ -83,12 +96,20 @@ const TodoInput = styled.input`
   width: 100%;
   height: 30px;
   margin-top: 25px;
+  border: none;
+  border-radius: 11px;
+  padding-left: 10px;
+  ${Shadow}
+  &:focus-visible {
+    outline: none;
+    border: 1px solid ${({ theme }) => theme.colors.primary};
+  }
 `;
 
 const GoalDateText = styled.span`
   position: absolute;
-  top: 3px;
-  left: 15px;
+  top: 20px;
+  left: 20px;
 `;
 
 const StyledDatePicker = styled(DatePicker)`
@@ -96,22 +117,19 @@ const StyledDatePicker = styled(DatePicker)`
 `;
 
 const ModalContent = styled.div`
-  & label {
-    width: 20px;
-    height: 20px;
-  }
   & label svg {
     top: 0;
     left: 0;
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
   }
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
   max-width: 720px;
-  height: 100px;
+  padding: 20px;
+  /* height: 100px; */
   position: absolute;
   left: 50%;
   top: 20%;
@@ -119,7 +137,6 @@ const ModalContent = styled.div`
   ${Shadow};
   border-radius: 20px;
   background-color: white;
-  padding: 0 15px;
 `;
 const TodoModalDim = styled.div`
   width: 100vw;

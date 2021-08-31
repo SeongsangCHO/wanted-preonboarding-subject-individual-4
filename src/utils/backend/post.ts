@@ -5,11 +5,13 @@ import { getLocalStorage, setLocalStorage } from "utils/backend/storage";
 export const CREATE_TODO_ITEM = (url: string, reqData: { content: string }) => {
   //클라이언트에서로부터 받은 content를 localStorage에 저장하고 응답을 반환하는 함수입니다.
   const newTodo = newTodoGen(reqData.content);
+  console.log(newTodo);
   try {
     const data = getLocalStorage("todos");
     data.count += 1;
     data.todoList = [...data.todoList, newTodo];
     setLocalStorage("todos", data);
+    console.log(data);
   } catch (e) {
     console.error(e);
     return { msg: "Todo create ERROR", status: 500 };

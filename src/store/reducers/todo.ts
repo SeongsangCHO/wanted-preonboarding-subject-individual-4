@@ -11,6 +11,7 @@ import {
   EDIT_TODO_ITEM_SUCCESS,
 } from "store/actions/types";
 import { getLocalStorage } from "utils/backend/storage";
+import { createKRdate } from "utils/date";
 
 export const STATUS = {
   Loading: "loading",
@@ -40,7 +41,7 @@ export const newTodoGen = (content: string): ITodo => {
     id: getLastId(),
     content,
     isCheck: false,
-    createdAt: new Date(),
+    createdAt: createKRdate(),
   };
 };
 
