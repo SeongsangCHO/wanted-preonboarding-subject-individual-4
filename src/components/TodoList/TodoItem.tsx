@@ -8,10 +8,10 @@ import {
   requestEditTodoItem,
 } from "store/actions/todo";
 import { useState } from "react";
-import { ReactComponent as CheckIcon } from "assets/Check.svg";
-import { ReactComponent as DeleteIcon } from "assets/Trash.svg";
-import { ReactComponent as EditIcon } from "assets/Edit.svg";
-import { ReactComponent as EditDoneIcon } from "assets/Editdone.svg";
+import { ReactComponent as CheckIcon } from "assets/check.svg";
+import { ReactComponent as DeleteIcon } from "assets/trash.svg";
+import { ReactComponent as EditIcon } from "assets/edit.svg";
+import { ReactComponent as EditDoneIcon } from "assets/editdone.svg";
 import { Shadow } from "styles/mixin";
 
 interface IProps {

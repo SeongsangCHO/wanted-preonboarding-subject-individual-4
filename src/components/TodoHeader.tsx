@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { showModal } from "store/actions/modal";
 import CommonButton from "components/common/Button";
 import styled from "styled-components";
-import { ReactComponent as AddIcon } from "assets/Add.svg";
-import { ReactComponent as SearchIcon } from "assets/Search.svg";
+import { ReactComponent as AddIcon } from "assets/add.svg";
+import { ReactComponent as SearchIcon } from "assets/search.svg";
 import { Shadow } from "styles/mixin";
 
 interface IProps {}

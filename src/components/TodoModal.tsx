@@ -10,7 +10,7 @@ import ko from "date-fns/locale/ko";
 import { requestAddTodoItem } from "store/actions/todo";
 import { useDispatch } from "react-redux";
 import { Shadow } from "styles/mixin";
-import CommonButton from "./common/Button";
+import CommonButton from "components/common/Button";
 import { createKRdate } from "utils/date";
 
 registerLocale("ko", ko);
