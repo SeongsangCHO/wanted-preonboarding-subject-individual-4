@@ -1,14 +1,13 @@
 import useModalState from "hooks/useModalState";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { closeModal } from "store/actions/modal";
 import Portal from "./Portal/Portal";
 import styled from "styled-components";
-import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import { ReactComponent as Calendar } from "assets/calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
-import useTodoState from "hooks/useTodoState";
-import { requestGetTodosList } from "store/actions/todo";
+import { requestAddTodoItem } from "store/actions/todo";
 import { useDispatch } from "react-redux";
 registerLocale("ko", ko);
 interface IProps {}
@@ -16,23 +15,30 @@ interface IProps {}
 const TodoModal: React.FC<IProps> = ({}) => {
   const dispatch = useDispatch();
   const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [taskText, setTaskText] = useState("");
   const handleDate = (date: Date | null) => {
-    console.log(date);
     setStartDate(date);
   };
   const {
     modalState: { showModal: showModal },
   } = useModalState();
-  const { todoState } = useTodoState();
-  console.log(todoState);
 
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setTaskText(value);
+  };
+  const handleSumbit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(requestAddTodoItem(taskText));
+    dispatch(closeModal());
+    setTaskText("");
+  };
   if (!showModal) return <></>;
   return (
     <Portal>
       <TodoModalDim>
         <ModalContent>
           <GoalDateText>Goal: {startDate?.toDateString()}</GoalDateText>
-          <TodoInput placeholder="Add a Task"></TodoInput>
+          <TodoInput placeholder="Add a Task" value={taskText} onChange={handleInput}></TodoInput>
           <Bottom>
             <label htmlFor="date-picker" tabIndex={0}>
               <Calendar />
@@ -49,7 +55,7 @@ const TodoModal: React.FC<IProps> = ({}) => {
             />
             <ButtonContainer>
               <button onClick={() => dispatch(closeModal())}>cancel</button>
-              <button onClick={() => dispatch(requestGetTodosList())}>Add Task</button>
+              <button onClick={handleSumbit}>Add Task</button>
             </ButtonContainer>
           </Bottom>
         </ModalContent>

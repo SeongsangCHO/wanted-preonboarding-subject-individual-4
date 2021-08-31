@@ -1,9 +1,14 @@
 import { ITodo, ITodoList } from "types/todo";
 import {
-  ADD_TODO_ITEM,
+  CHECK_TODO_ITEM_REQUEST,
+  ADD_TODO_ITEM_REQUEST,
+  ADD_TODO_ITEM_SUCCESS,
   GET_TODOS_LIST_REQUEST,
   GET_TODOS_LIST_SUCCESS,
   GET_TODOS_LIST_FAILURE,
+  CHECK_TODO_ITEM_SUCCESS,
+  DELETE_TODO_ITEM_REQUEST,
+  DELETE_TODO_ITEM_SUCCESS,
 } from "store/actions/types";
 
 export const requestGetTodosList = () => {
@@ -15,18 +20,65 @@ export const requestGetTodosList = () => {
 export const setTodosList = (todo: ITodoList) => {
   return {
     type: GET_TODOS_LIST_SUCCESS,
-    data: todo,
+    todo,
   };
 };
 
-export const addTodoItem = (content: string) => {
+export const failureGetTodosList = () => {
   return {
-    type: ADD_TODO_ITEM,
-    payload: content,
+    type: GET_TODOS_LIST_FAILURE,
+  };
+};
+
+export const requestAddTodoItem = (content: string) => {
+  return {
+    type: ADD_TODO_ITEM_REQUEST,
+    content,
+  };
+};
+
+export const addTodoItem = (data: ITodo) => {
+  return {
+    type: ADD_TODO_ITEM_SUCCESS,
+    data,
+  };
+};
+
+export const requestCheckTodoItem = (id: string) => {
+  return {
+    type: CHECK_TODO_ITEM_REQUEST,
+    id,
+  };
+};
+
+export const toggleCheckTodo = (id: string) => {
+  return {
+    type: CHECK_TODO_ITEM_SUCCESS,
+    id,
+  };
+};
+
+export const requestDeleteTodoItem = (id: string) => {
+  return {
+    type: DELETE_TODO_ITEM_REQUEST,
+    id,
+  };
+};
+
+export const deleteTodoItem = (id: string) => {
+  return {
+    type: DELETE_TODO_ITEM_SUCCESS,
+    id,
   };
 };
 
 export type TodoAction =
-  | ReturnType<typeof addTodoItem> //Post요청 {}객체하나 던지기
+  | ReturnType<typeof requestAddTodoItem> //Post요청 {}객체하나 던지기
+  | ReturnType<typeof setTodosList>
+  | ReturnType<typeof failureGetTodosList>
   | ReturnType<typeof requestGetTodosList>
-  | ReturnType<typeof setTodosList>;
+  | ReturnType<typeof toggleCheckTodo>
+  | ReturnType<typeof requestCheckTodoItem>
+  | ReturnType<typeof requestDeleteTodoItem>
+  | ReturnType<typeof deleteTodoItem>
+  | ReturnType<typeof addTodoItem>; //Post요청 {}객체하나 던지기
