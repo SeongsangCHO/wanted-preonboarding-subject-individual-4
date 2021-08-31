@@ -45,7 +45,11 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
   return (
     <Container>
       <LeftSide>
-        <CheckButton isCheck={todo.isCheck} onClick={() => dispatch(requestCheckTodoItem(todo.id))}>
+        <CheckButton
+          isEdit={isEdit}
+          isCheck={todo.isCheck}
+          onClick={() => dispatch(requestCheckTodoItem(todo.id))}
+        >
           <CheckIcon className="check" />
         </CheckButton>
         <TodoText
@@ -59,6 +63,7 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
         </TodoText>
       </LeftSide>
       <RightSide>
+        <DdayText>D-18</DdayText>
         <EditButton onClick={handleEdit}>
           {isEdit ? <EditDoneIcon className="edit-done" /> : <EditIcon className="edit" />}
         </EditButton>
@@ -79,7 +84,8 @@ const Container = styled.li`
   height: 60px;
   border-bottom: 1px solid #827a7a;
 `;
-const CheckButton = styled.button<{ isCheck: boolean }>`
+const CheckButton = styled.button<{ isCheck: boolean; isEdit: boolean }>`
+  visibility: ${(props) => (props.isEdit ? "hidden" : "")};
   cursor: pointer;
   ${Shadow}
   min-width: 40px;
@@ -116,8 +122,8 @@ const EditButton = styled.button`
     height: 32px;
   }
   & svg.edit-done {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
   }
 `;
 const LeftSide = styled.div`
@@ -126,7 +132,7 @@ const LeftSide = styled.div`
 `;
 const TodoText = styled.span<{ isCheck: boolean }>`
   width: 100%;
-  max-width: 580px;
+  max-width: 400px;
   line-height: 40px;
   margin-left: 10px;
   font-size: 20px;
@@ -142,18 +148,22 @@ const TodoText = styled.span<{ isCheck: boolean }>`
       text-decoration-line: line-through;
       color: ${({ theme }) => theme.colors.gray};
     `}
-  @media screen and (max-width: 768px) {
-    max-width: 320px;
+  @media screen and (max-width: 767px) {
+    max-width: 260px;
   }
-  @media screen and (max-width: 512px) {
-    max-width: 280px;
+  @media screen and (min-width: 768px) {
+    max-width: 480px;
   }
 `;
 const RightSide = styled.div`
-  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-top: 10px;
 `;
-
+const DdayText = styled.span`
+  margin-right: 15px;
+`;
 const DeleteButton = styled.button`
   border: none;
   background-color: white;
