@@ -4,6 +4,7 @@ import { closeModal } from "store/actions/modal";
 import Portal from "./Portal/Portal";
 import styled from "styled-components";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import { ReactComponent as Calendar } from "assets/calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from "date-fns/locale/ko";
 registerLocale("ko", ko);
@@ -23,38 +24,86 @@ const TodoModal: React.FC<IProps> = ({}) => {
   return (
     <Portal>
       <TodoModalDim>
-        <Section>
-          <input placeholder="Add a task"></input>
-          <label htmlFor="date-picker">아이콘넣어서 클릭되면 색칠하기, 스테이트넣어서.</label>
-          <DatePicker
-            minDate={new Date()}
-            locale="ko"
-            id="date-picker"
-            selected={startDate}
-            onChange={handleDate}
-            dateFormat="yyyy/MM/dd"
-            // placeholderText="Set Goal Date"
-          />
-          <button onClick={() => dispatch(closeModal())}>cancel</button>
-          <button>Add Task</button>
-        </Section>
+        <ModalContent>
+          <GoalDateText>Goal: {startDate?.toDateString()}</GoalDateText>
+          <TodoInput placeholder="Add a Task"></TodoInput>
+          <Bottom>
+            <label htmlFor="date-picker" tabIndex={0}>
+              <Calendar />
+            </label>
+            <StyledDatePicker
+              minDate={new Date()}
+              locale="ko"
+              id="date-picker"
+              selected={startDate}
+              onChange={handleDate}
+              dateFormat="yyyy/MM/dd"
+              className="date-picker"
+              // placeholderText="Set Goal Date"
+            />
+            <ButtonContainer>
+              <button onClick={() => dispatch(closeModal())}>cancel</button>
+              <button>Add Task</button>
+            </ButtonContainer>
+          </Bottom>
+        </ModalContent>
       </TodoModalDim>
     </Portal>
   );
 };
 export default TodoModal;
-
-const Section = styled.div`
+const ButtonContainer = styled.div`
+  & button + button {
+    margin-left: 5px;
+  }
+`;
+const Bottom = styled.div`
   display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 15px;
+`;
+const TodoInput = styled.input`
+  display: block;
+  width: 100%;
+  height: 30px;
+  margin-top: 25px;
+`;
+
+const GoalDateText = styled.span`
+  position: absolute;
+  top: 3px;
+  left: 15px;
+`;
+
+const StyledDatePicker = styled(DatePicker)`
+  visibility: hidden;
+`;
+
+const ModalContent = styled.div`
+  & label {
+    width: 20px;
+    height: 20px;
+    /* position: relative; */
+  }
+  & label svg {
+    top: 0;
+    left: 0;
+    /* position: absolute; */
+    width: 20px;
+    height: 20px;
+  }
+  display: flex;
+  flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 720px;
-  height: 60px;
+  height: 100px;
   position: absolute;
   left: 50%;
   top: 30%;
   transform: translate(-50%, 0);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 5px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 1px 6px 0px #000000;
   border-radius: 20px;
   background-color: white;
   padding: 0 15px;
@@ -66,5 +115,5 @@ const TodoModalDim = styled.div`
   left: 0;
   top: 0;
   overflow-y: hidden;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.7);
 `;
