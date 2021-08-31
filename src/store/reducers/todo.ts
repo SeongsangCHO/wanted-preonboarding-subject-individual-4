@@ -73,7 +73,6 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
         status: STATUS.Failure,
       };
     case CHECK_TODO_ITEM_SUCCESS:
-      //여긴문제없어 제대로 반환중임
       return {
         ...state,
         todoList: state.todoList.map((item) =>

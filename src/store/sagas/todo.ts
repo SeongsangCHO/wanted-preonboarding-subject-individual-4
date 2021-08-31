@@ -19,7 +19,7 @@ import {
 import { ITodoList } from "types/todo";
 
 function* watchGetTodosList() {
-  yield delay(2000);
+  yield delay(1000);
   console.log("watchGetTodosList실행");
   const res: ITodoList | null = yield call(API.getTodoList);
   console.log(res);
