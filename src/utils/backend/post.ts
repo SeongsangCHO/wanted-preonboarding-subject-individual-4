@@ -29,3 +29,19 @@ export const UPDATE_TODO_ITEM = (url: string, reqData: { content: string }) => {
   setLocalStorage("todos", updatedData);
   return { msg: `Todo Updated`, content: `${id} Item : Updated`, status: 200 };
 };
+
+export const DELETE_TODO_ITEM = (url: string) => {
+  const queryString = url.split("/");
+  const id = queryString[queryString.length - 1];
+  try {
+    const data = getLocalStorage("todos");
+    data.count -= 1;
+    const updatedData = data.todoList.filter((item: ITodo) => item.id !== id);
+    data.todoList = [...updatedData];
+    setLocalStorage("todos", data);
+  } catch (e) {
+    console.error(e);
+    return { msg: "Todo Delete Request Fail", status: 500 };
+  }
+  return { msg: "Todo Deleted", status: 200 };
+};

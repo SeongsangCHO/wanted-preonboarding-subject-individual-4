@@ -1,25 +1,27 @@
-import { checkTodoItem, createTodoItem, IResponse } from "api/todo";
+import * as API from "api/todo";
 import { call, delay, takeLatest, put } from "redux-saga/effects";
 import {
   addTodoItem,
+  deleteTodoItem,
   failureGetTodosList,
   requestAddTodoItem,
   requestCheckTodoItem,
+  requestDeleteTodoItem,
   setTodosList,
   toggleCheckTodo,
 } from "store/actions/todo";
 import {
   ADD_TODO_ITEM_REQUEST,
   CHECK_TODO_ITEM_REQUEST,
+  DELETE_TODO_ITEM_REQUEST,
   GET_TODOS_LIST_REQUEST,
 } from "store/actions/types";
 import { ITodoList } from "types/todo";
-import { getTodoList } from "api/todo";
 
 function* watchGetTodosList() {
   yield delay(2000);
   console.log("watchGetTodosList실행");
-  const res: ITodoList | null = yield call(getTodoList);
+  const res: ITodoList | null = yield call(API.getTodoList);
   console.log(res);
   if (res === null) {
     yield put(failureGetTodosList());
@@ -30,7 +32,7 @@ function* watchGetTodosList() {
 
 function* watchAddTodoItem(action: ReturnType<typeof requestAddTodoItem>) {
   yield delay(1000);
-  const res: IResponse = yield call(createTodoItem, action.content);
+  const res: API.IResponse = yield call(API.createTodoItem, action.content);
   if (res.status === 200) {
     yield put(addTodoItem(res.data!));
   } else {
@@ -39,7 +41,7 @@ function* watchAddTodoItem(action: ReturnType<typeof requestAddTodoItem>) {
 }
 
 function* watchCheckTodoItem(action: ReturnType<typeof requestCheckTodoItem>) {
-  const res: IResponse = yield call(checkTodoItem, action.id);
+  const res: API.IResponse = yield call(API.checkTodoItem, action.id);
   if (res.status === 200) {
     yield put(toggleCheckTodo(action.id));
   } else {
@@ -47,10 +49,20 @@ function* watchCheckTodoItem(action: ReturnType<typeof requestCheckTodoItem>) {
   }
 }
 
+function* watchDeleteTodoItem(action: ReturnType<typeof requestDeleteTodoItem>) {
+  const res: API.IResponse = yield call(API.deleteTodoItem, action.id);
+  console.log("deltee req", res);
+
+  if (res.status === 200) {
+    yield put(deleteTodoItem(action.id));
+  }
+}
+
 function* todoSaga() {
   yield takeLatest(GET_TODOS_LIST_REQUEST, watchGetTodosList);
   yield takeLatest(ADD_TODO_ITEM_REQUEST, watchAddTodoItem);
   yield takeLatest(CHECK_TODO_ITEM_REQUEST, watchCheckTodoItem);
+  yield takeLatest(DELETE_TODO_ITEM_REQUEST, watchDeleteTodoItem);
 }
 
 export default todoSaga;

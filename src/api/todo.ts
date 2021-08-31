@@ -34,3 +34,8 @@ export const updateTodoItem = (id: string, content: string): IResponse => {
   const res = POST.UPDATE_TODO_ITEM(`${BASE_URL}/${END_POINT.todo}/${id}`, { content });
   return res;
 };
+
+export const deleteTodoItem = (id: string): IResponse => {
+  const res = POST.DELETE_TODO_ITEM(`${BASE_URL}/${END_POINT.todo}/${id}`);
+  return res;
+};
