@@ -9,6 +9,8 @@ import {
   CHECK_TODO_ITEM_SUCCESS,
   DELETE_TODO_ITEM_REQUEST,
   DELETE_TODO_ITEM_SUCCESS,
+  EDIT_TODO_ITEM_REQUEST,
+  EDIT_TODO_ITEM_SUCCESS,
 } from "store/actions/types";
 
 export const requestGetTodosList = () => {
@@ -72,6 +74,20 @@ export const deleteTodoItem = (id: string) => {
   };
 };
 
+export const requestEditTodoItem = (data: { id: string; content: string }) => {
+  return {
+    type: EDIT_TODO_ITEM_REQUEST,
+    payload: data,
+  };
+};
+
+export const editTodoItem = (data: { id: string; content: string }) => {
+  return {
+    type: EDIT_TODO_ITEM_SUCCESS,
+    payload: data,
+  };
+};
+
 export type TodoAction =
   | ReturnType<typeof requestAddTodoItem> //Post요청 {}객체하나 던지기
   | ReturnType<typeof setTodosList>
@@ -81,4 +97,6 @@ export type TodoAction =
   | ReturnType<typeof requestCheckTodoItem>
   | ReturnType<typeof requestDeleteTodoItem>
   | ReturnType<typeof deleteTodoItem>
+  | ReturnType<typeof requestEditTodoItem>
+  | ReturnType<typeof editTodoItem>
   | ReturnType<typeof addTodoItem>; //Post요청 {}객체하나 던지기

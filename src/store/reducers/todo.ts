@@ -8,8 +8,10 @@ import {
   ADD_TODO_ITEM_REQUEST,
   CHECK_TODO_ITEM_SUCCESS,
   DELETE_TODO_ITEM_SUCCESS,
+  EDIT_TODO_ITEM_SUCCESS,
 } from "store/actions/types";
 import { getLocalStorage } from "utils/backend/storage";
+import { createKRdate } from "utils/date";
 
 export const STATUS = {
   Loading: "loading",
@@ -39,7 +41,7 @@ export const newTodoGen = (content: string): ITodo => {
     id: getLastId(),
     content,
     isCheck: false,
-    createdAt: new Date(),
+    createdAt: createKRdate(),
   };
 };
 
@@ -73,7 +75,6 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
         status: STATUS.Failure,
       };
     case CHECK_TODO_ITEM_SUCCESS:
-      //여긴문제없어 제대로 반환중임
       return {
         ...state,
         todoList: state.todoList.map((item) =>
@@ -89,6 +90,18 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
       return {
         ...state,
         todoList: state.todoList.filter((item) => item.id !== action.id),
+      };
+    case EDIT_TODO_ITEM_SUCCESS:
+      return {
+        ...state,
+        todoList: state.todoList.map((item) =>
+          item.id === action.payload.id
+            ? {
+                ...item,
+                content: action.payload.content,
+              }
+            : item,
+        ),
       };
     default:
       return state;

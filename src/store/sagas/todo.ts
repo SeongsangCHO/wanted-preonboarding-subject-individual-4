@@ -7,6 +7,7 @@ import {
   requestAddTodoItem,
   requestCheckTodoItem,
   requestDeleteTodoItem,
+  requestEditTodoItem,
   setTodosList,
   toggleCheckTodo,
 } from "store/actions/todo";
@@ -14,12 +15,13 @@ import {
   ADD_TODO_ITEM_REQUEST,
   CHECK_TODO_ITEM_REQUEST,
   DELETE_TODO_ITEM_REQUEST,
+  EDIT_TODO_ITEM_REQUEST,
   GET_TODOS_LIST_REQUEST,
 } from "store/actions/types";
 import { ITodoList } from "types/todo";
 
 function* watchGetTodosList() {
-  yield delay(2000);
+  yield delay(1000);
   console.log("watchGetTodosList실행");
   const res: ITodoList | null = yield call(API.getTodoList);
   console.log(res);
@@ -58,11 +60,16 @@ function* watchDeleteTodoItem(action: ReturnType<typeof requestDeleteTodoItem>) 
   }
 }
 
+function* watchEditTodoItem(action: ReturnType<typeof requestEditTodoItem>) {
+  const res: API.IResponse = yield call(API.editTodoItem, action.payload);
+}
+
 function* todoSaga() {
   yield takeLatest(GET_TODOS_LIST_REQUEST, watchGetTodosList);
   yield takeLatest(ADD_TODO_ITEM_REQUEST, watchAddTodoItem);
   yield takeLatest(CHECK_TODO_ITEM_REQUEST, watchCheckTodoItem);
   yield takeLatest(DELETE_TODO_ITEM_REQUEST, watchDeleteTodoItem);
+  yield takeLatest(EDIT_TODO_ITEM_REQUEST, watchEditTodoItem);
 }
 
 export default todoSaga;

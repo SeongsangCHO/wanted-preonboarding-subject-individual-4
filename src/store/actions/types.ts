@@ -14,3 +14,7 @@ export const CHECK_TODO_ITEM_SUCCESS = "todos/CHECK_TODO_ITEM_SUCCESS" as const;
 
 export const DELETE_TODO_ITEM_REQUEST = "todos/DELETE_TODO_ITEM_REQUEST" as const;
 export const DELETE_TODO_ITEM_SUCCESS = "todos/DELETE_TODO_ITEM_SUCCESS" as const;
+
+
+export const EDIT_TODO_ITEM_REQUEST = "todos/EDIT_TODO_ITEM_REQUEST" as const;
+export const EDIT_TODO_ITEM_SUCCESS = "todos/EDIT_TODO_ITEM_SUCCESS" as const;
