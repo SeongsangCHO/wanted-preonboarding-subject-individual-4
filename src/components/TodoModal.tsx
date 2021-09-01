@@ -1,16 +1,17 @@
-import useModalState from "hooks/useModalState";
-import React, { ChangeEvent, useState } from "react";
-import { closeModal } from "store/actions/modal";
-import Portal from "./Portal/Portal";
+import React, { useState } from "react";
+import moment from "moment";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
-import { ReactComponent as Calendar } from "assets/calendar.svg";
-import "react-datepicker/dist/react-datepicker.css";
-import { requestAddTodoItem } from "store/actions/todo";
 import { useDispatch } from "react-redux";
-import { Shadow } from "styles/mixin";
+import "react-datepicker/dist/react-datepicker.css";
+
+import Portal from "components/Portal/Portal";
 import CommonButton from "components/common/Button";
-import moment from "moment";
+import useModalState from "hooks/useModalState";
+import { closeModal } from "store/actions/modal";
+import { requestAddTodoItem } from "store/actions/todo";
+import { Shadow } from "styles/mixin";
+import { ReactComponent as Calendar } from "assets/calendar.svg";
 
 interface IProps {}
 
@@ -26,7 +27,7 @@ const TodoModal: React.FC<IProps> = ({}) => {
     modalState: { showModal: showModal },
   } = useModalState();
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     //Todo Text를 입력하는 함수
     const { value } = e.target;
     setTaskText(value);
@@ -42,9 +43,20 @@ const TodoModal: React.FC<IProps> = ({}) => {
   return (
     <Portal>
       <TodoModalDim>
+        <Notification className={taskText.length === 50 ? "input-max-length" : ""}>
+          Max 50 characters
+        </Notification>
         <ModalContent>
-          <GoalDateText>Goal Date - {moment(goalDate).format("yyyy/MM/DD")}</GoalDateText>
-          <TodoInput placeholder="Add a Task" value={taskText} onChange={handleInput}></TodoInput>
+          <label htmlFor="date-picker" tabIndex={0}>
+            <GoalDateText>To {moment(goalDate).format("yyyy/MM/DD")}</GoalDateText>
+          </label>
+          <TodoInput
+            maxLength={50}
+            placeholder="Add a Task"
+            value={taskText}
+            className={taskText.length === 50 ? "input-max-length" : ""}
+            onChange={handleInput}
+          ></TodoInput>
           <Bottom>
             <label htmlFor="date-picker" tabIndex={0}>
               <Calendar />
@@ -87,8 +99,8 @@ const AddTaskButton = styled(CommonButton)`
 
 const ButtonContainer = styled.div``;
 const Bottom = styled.div`
-  display: flex;
   width: 100%;
+  display: flex;
   justify-content: space-between;
   margin-top: 15px;
 `;
@@ -105,12 +117,26 @@ const TodoInput = styled.input`
     outline: none;
     border: 1px solid ${({ theme }) => theme.colors.primary};
   }
+  &.input-max-length {
+    border: 2px solid red;
+  }
 `;
 
 const GoalDateText = styled.span`
+  line-height: 34px;
+  height: 30px;
+  padding: 0 10px;
   position: absolute;
-  top: 20px;
   left: 20px;
+  top: 10px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: white;
+  border-radius: 11px;
+  cursor: pointer;
+  font-size: 14px;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primaryHover};
+  }
 `;
 
 const StyledDatePicker = styled(DatePicker)`
@@ -130,7 +156,6 @@ const ModalContent = styled.div`
   width: 90%;
   max-width: 720px;
   padding: 20px;
-  /* height: 100px; */
   position: absolute;
   left: 50%;
   top: 20%;
@@ -147,4 +172,17 @@ const TodoModalDim = styled.div`
   top: 0;
   overflow-y: hidden;
   background-color: rgba(255, 255, 255, 0.7);
+`;
+
+const Notification = styled.div`
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transition: 1s;
+  &.input-max-length {
+    opacity: 1;
+    top: 15%;
+  }
+  transform: translate(-50%, 0);
 `;

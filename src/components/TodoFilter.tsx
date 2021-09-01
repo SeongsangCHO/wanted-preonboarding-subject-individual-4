@@ -6,14 +6,11 @@ import CommonButton from "components/common/Button";
 import useTodoState from "hooks/useTodoState";
 import { setFilterType } from "store/actions/todo";
 
-interface IProps {}
-
-const TodoFilter: React.FC<IProps> = ({}) => {
+const TodoFilter: React.FC = () => {
   const dispatch = useDispatch();
   const {
     todoState: { filter, count, todoList },
   } = useTodoState();
-  const todoCount = todoList.filter((item) => item.isCheck === false).length;
   const handleFilter = (e: React.MouseEvent<HTMLDivElement>) => {
     const {
       dataset: { type },
@@ -21,6 +18,10 @@ const TodoFilter: React.FC<IProps> = ({}) => {
     if (!type) return;
     dispatch(setFilterType(type));
   };
+  const getCheckedTodoCount = (): number => {
+    return todoList.filter((item) => item.isCheck === false).length;
+  };
+  const todoCount = getCheckedTodoCount();
   return (
     <Container onClick={handleFilter}>
       <AllItemFilter className={filter === "All" ? "focus" : ""} data-type="All">

@@ -13,12 +13,9 @@ interface IProps {
 const TodoList: React.FC<IProps> = ({ searchText }) => {
   const { todoState } = useTodoState();
   const filteredList = useTodoFilter(searchText);
-  console.log(todoState.status);
-
   return (
     <Container>
       <ItemWrapper>
-        list
         {todoState.count > 0 && filteredList.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
         {todoState.status === "loading" && <Spinner />}
         {todoState.status === "success" && <div></div>}
