@@ -7,6 +7,8 @@ import { showModal } from "store/actions/modal";
 import { Shadow } from "styles/mixin";
 import { ReactComponent as SearchIcon } from "assets/search.svg";
 import { ReactComponent as AddIcon } from "assets/add.svg";
+import useModalState from "hooks/useModalState";
+import { useEffect } from "react";
 
 interface IProps {
   searchText: string;
@@ -16,7 +18,15 @@ interface IProps {
 const TodoHeader: React.FC<IProps> = ({ searchText, setSearchText }) => {
   const dispatch = useDispatch();
 
-  const handleSearchTextClear = (e: React.MouseEvent<HTMLInputElement>) => {
+  const { modalState } = useModalState();
+  useEffect(() => {
+    //모달 클릭시 기존 검색어 제거
+    if (modalState.showModal) {
+      handleSearchTextClear();
+    }
+  }, [modalState]);
+
+  const handleSearchTextClear = (e?: React.MouseEvent<HTMLInputElement>) => {
     // Search Input 클릭시 초기화
     setSearchText("");
   };
@@ -52,8 +62,8 @@ const Header = styled.header`
   & > label {
     position: absolute;
     width: 20px;
-    left: 80px;
-    top: 16px;
+    left: 90px;
+    top: 15px;
   }
 `;
 
@@ -72,7 +82,7 @@ const SearchInput = styled.input`
 `;
 
 const TodoCreateModal = styled(CommonButton)`
-  width: 50px;
+  width: 65px;
   margin-right: 20px;
   color: white;
   cursor: pointer;
