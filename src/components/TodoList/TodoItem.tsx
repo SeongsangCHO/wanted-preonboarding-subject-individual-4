@@ -147,6 +147,7 @@ const TodoText = styled.span<{ isCheck: boolean }>`
   font-size: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   &:focus-visible {
     outline: none;
     border: 1px solid ${({ theme }) => theme.colors.primary};
