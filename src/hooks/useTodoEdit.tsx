@@ -8,6 +8,7 @@ const useTodoEdit = (todo: ITodo) => {
   const [isEdit, setIsEdit] = useState(false);
   const todoTextRef = useRef<HTMLSpanElement | null>(null);
   const [editText, setEditText] = useState(todo.content);
+
   useEffect(() => {
     if (todoTextRef.current) {
       todoTextRef.current.focus();

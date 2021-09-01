@@ -22,10 +22,11 @@ interface IProps {
 const TodoItem: React.FC<IProps> = ({ todo }) => {
   const { isEdit, editText, todoTextRef, handleEdit, maxCharactersCheck, handleEditKey } =
     useTodoEdit(todo);
-
   const dispatch = useDispatch();
+
   const dDay = dateToDday(todo.goalDate?.toLocaleString()!);
   useEffect(() => {
+    //수정버튼 클릭시 focus주기 위해 ref사용
     if (todoTextRef.current) {
       todoTextRef.current.focus();
     }

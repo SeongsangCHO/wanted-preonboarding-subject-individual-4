@@ -10,16 +10,20 @@ const TodoProgressBar: React.FC<IProps> = ({}) => {
   const {
     todoState: { count, todoList },
   } = useTodoState();
+
   const getCheckedDoneCount = (): number => {
+    //완료된 Task 갯수 반환
     return todoList.filter((item) => item.isCheck === true).length;
   };
   const todoCount = getCheckedDoneCount();
   const getProgressPercent = (): number => {
+    //전체 Todo 작업 퍼센트 계산함수
     return Math.floor((todoCount / count) * 100);
   };
   const progressPercent = getProgressPercent();
 
   const percentTextPhrases = () => {
+    //Todo 진행상황에 따른 문구 출력함수
     if (isNaN(progressPercent)) {
       return "";
     }

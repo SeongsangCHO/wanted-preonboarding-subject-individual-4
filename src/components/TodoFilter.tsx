@@ -11,17 +11,23 @@ const TodoFilter: React.FC = () => {
   const {
     todoState: { filter, count, todoList },
   } = useTodoState();
+
   const handleFilter = (e: React.MouseEvent<HTMLDivElement>) => {
+    //클릭된 타입에 따라 필터타입을 전역스테이트에 갱신하기 위한 트리거
     const {
       dataset: { type },
     } = e.target as HTMLDivElement;
     if (!type) return;
     dispatch(setFilterType(type));
   };
+
   const getCheckedTodoCount = (): number => {
+    //체크된 todo 갯수 세는 함수
     return todoList.filter((item) => item.isCheck === false).length;
   };
+
   const todoCount = getCheckedTodoCount();
+
   return (
     <Container onClick={handleFilter}>
       <AllItemFilter className={filter === "All" ? "focus" : ""} data-type="All">
