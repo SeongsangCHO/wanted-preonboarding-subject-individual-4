@@ -20,5 +20,4 @@ const Button = styled.button`
   border-radius: 10px;
   border: none;
   ${Shadow};
-  /* background-color: ${({ theme }) => theme.colors.primary}; */
 `;

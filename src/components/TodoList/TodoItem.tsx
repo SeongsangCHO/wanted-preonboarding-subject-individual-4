@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 
+import useTodoEdit from "hooks/useTodoEdit";
+import Notification from "components/common/Notification";
+import { requestCheckTodoItem, requestDeleteTodoItem } from "store/actions/todo";
 import { ITodo } from "types/todo";
 import { dateToDday } from "utils/date";
-import {
-  requestCheckTodoItem,
-  requestDeleteTodoItem,
-  requestEditTodoItem,
-} from "store/actions/todo";
 import { Shadow } from "styles/mixin";
 import { ReactComponent as CheckIcon } from "assets/check.svg";
 import { ReactComponent as DeleteIcon } from "assets/trash.svg";
@@ -20,31 +18,15 @@ interface IProps {
 }
 
 const TodoItem: React.FC<IProps> = ({ todo }) => {
+  const { isEdit, todoTextRef, handleEdit, maxCharactersCheck, handleEditKey } = useTodoEdit(todo);
+
   const dispatch = useDispatch();
-  const [isEdit, setIsEdit] = useState(false);
-  const todoTextRef = useRef<HTMLSpanElement | null>(null);
   const dDay = dateToDday(todo.goalDate?.toLocaleString()!);
   useEffect(() => {
     if (todoTextRef.current) {
       todoTextRef.current.focus();
     }
   }, [isEdit]);
-  const editRequest = () => {
-    //수정완료 클릭시 입력된 데이터를 LocalStorage에 반영하기 위한 트리거
-    if (isEdit && todoTextRef.current) {
-      dispatch(requestEditTodoItem({ id: todo.id, content: todoTextRef.current?.innerText }));
-    }
-  };
-  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setIsEdit((prev) => !prev);
-    editRequest();
-  };
-  const handleEditDone = (e: React.KeyboardEvent<HTMLSpanElement>) => {
-    if (e.key === "Enter") {
-      setIsEdit(false);
-      editRequest();
-    }
-  };
   return (
     <Container>
       <LeftSide>
@@ -60,7 +42,8 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
           contentEditable={isEdit}
           suppressContentEditableWarning={true}
           ref={todoTextRef}
-          onKeyDown={handleEditDone}
+          onKeyDown={handleEditKey}
+          isMaxLength={!maxCharactersCheck()}
         >
           {todo.content}
         </TodoText>
@@ -74,6 +57,9 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
           <DeleteIcon className="delete" />
         </DeleteButton>
       </RightSide>
+      <Notification className={!maxCharactersCheck() ? "input-max-length" : ""}>
+        Max 50 characters
+      </Notification>
     </Container>
   );
 };
@@ -124,11 +110,15 @@ const CheckButton = styled.button<{ isCheck: boolean; isEdit: boolean }>`
 `;
 
 const EditButton = styled.button`
+  cursor: pointer;
   border: none;
   background-color: white;
   & svg.edit {
     width: 1.5em;
     height: 1.5em;
+    &:hover path {
+      fill: ${({ theme }) => theme.colors.primary};
+    }
   }
   & svg.edit-done {
     width: 1.5em;
@@ -139,7 +129,7 @@ const LeftSide = styled.div`
   display: flex;
   justify-content: center;
 `;
-const TodoText = styled.span<{ isCheck: boolean }>`
+const TodoText = styled.span<{ isCheck: boolean; isMaxLength: boolean }>`
   width: 100%;
   max-width: 400px;
   line-height: 40px;
@@ -157,6 +147,11 @@ const TodoText = styled.span<{ isCheck: boolean }>`
     css`
       text-decoration-line: line-through;
       color: ${({ theme }) => theme.colors.gray};
+    `}
+  ${(props) =>
+    props.isMaxLength &&
+    css`
+      color: red;
     `}
 
   font-size: 1em;
@@ -178,10 +173,14 @@ const DdayText = styled.span`
   margin-right: 15px;
 `;
 const DeleteButton = styled.button`
+  cursor: pointer;
   border: none;
   background-color: white;
   & svg.delete {
     width: 1.5em;
     height: 1.5em;
+    &:hover path {
+      fill: ${({ theme }) => theme.colors.primary};
+    }
   }
 `;

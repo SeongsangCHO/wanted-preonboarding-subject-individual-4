@@ -12,6 +12,7 @@ import { closeModal } from "store/actions/modal";
 import { requestAddTodoItem } from "store/actions/todo";
 import { Shadow } from "styles/mixin";
 import { ReactComponent as Calendar } from "assets/calendar.svg";
+import Notification from "./common/Notification";
 
 interface IProps {}
 
@@ -174,15 +175,15 @@ const TodoModalDim = styled.div`
   background-color: rgba(255, 255, 255, 0.7);
 `;
 
-const Notification = styled.div`
-  opacity: 0;
-  position: absolute;
-  left: 50%;
-  top: 10%;
-  transition: 1s;
-  &.input-max-length {
-    opacity: 1;
-    top: 15%;
-  }
-  transform: translate(-50%, 0);
-`;
+// const Notification = styled.div`
+//   opacity: 0;
+//   position: absolute;
+//   left: 50%;
+//   top: 10%;
+//   transition: 1s;
+//   &.input-max-length {
+//     opacity: 1;
+//     top: 15%;
+//   }
+//   transform: translate(-50%, 0);
+// `;
