@@ -1,4 +1,4 @@
-import { ITodoList, ITodo } from "types/todo";
+import { ITodoList } from "types/todo";
 import { TodoAction } from "store/actions/todo";
 import {
   ADD_TODO_ITEM_SUCCESS,
@@ -9,8 +9,10 @@ import {
   CHECK_TODO_ITEM_SUCCESS,
   DELETE_TODO_ITEM_SUCCESS,
   EDIT_TODO_ITEM_SUCCESS,
+  SET_FILTER_TYPE,
+  DELETE_TODO_ITEM_REQUEST,
+  CHECK_TODO_ITEM_REQUEST,
 } from "store/actions/types";
-import { getLocalStorage } from "utils/backend/storage";
 
 export const STATUS = {
   Loading: "loading",
@@ -18,11 +20,20 @@ export const STATUS = {
   Failure: "failure",
 };
 
+interface IObjectIndex {
+  [key: string]: string;
+}
+export const FILTER_TYPE: IObjectIndex = {
+  All: "All",
+  Todo: "Todo",
+  Done: "Done",
+};
+
 const initState: ITodoList = {
-  count: 0, //전체 데이터에 대한 카운트
+  count: 0,
   todoList: [],
   status: STATUS.Loading,
-  // 로딩유무 추가
+  filter: FILTER_TYPE.All,
 };
 
 const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
@@ -54,9 +65,16 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
         ...state,
         status: STATUS.Failure,
       };
+    case CHECK_TODO_ITEM_REQUEST:
+      return {
+        ...state,
+        status: STATUS.Loading,
+      };
+
     case CHECK_TODO_ITEM_SUCCESS:
       return {
         ...state,
+        status: STATUS.Success,
         todoList: state.todoList.map((item) =>
           item.id === action.id
             ? {
@@ -66,10 +84,16 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
             : item,
         ),
       };
+    case DELETE_TODO_ITEM_REQUEST:
+      return {
+        ...state,
+        status: STATUS.Loading,
+      };
     case DELETE_TODO_ITEM_SUCCESS:
       return {
         ...state,
         todoList: state.todoList.filter((item) => item.id !== action.id),
+        status: STATUS.Success,
       };
     case EDIT_TODO_ITEM_SUCCESS:
       return {
@@ -82,6 +106,11 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
               }
             : item,
         ),
+      };
+    case SET_FILTER_TYPE:
+      return {
+        ...state,
+        filter: FILTER_TYPE[action.filter],
       };
     default:
       return state;

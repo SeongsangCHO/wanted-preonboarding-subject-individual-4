@@ -8,7 +8,7 @@ interface IProps {
 const TodoPageTemplate: React.FC<IProps> = ({ children }) => {
   return <Container>{children}</Container>;
 };
-export default TodoPageTemplate;
+export default React.memo(TodoPageTemplate);
 
 const Container = styled.main`
   max-width: 768px;

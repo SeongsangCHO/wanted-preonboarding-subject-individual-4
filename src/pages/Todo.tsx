@@ -1,22 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+
 import TodoHeader from "components/TodoHeader";
 import TodoProgressBar from "components/TodoProgressBar";
-import TodoPageTemplate from "components/Template";
+import TodoPageTemplate from "components/common/Template";
 import TodoList from "components/TodoList/TodoList";
 import TodoFilter from "components/TodoFilter";
 import TodoModal from "components/TodoModal";
 import useInitLocalStorage from "hooks/useInitLocalStorage";
 
-interface IProps {}
-
-const TodoListPage: React.FC<IProps> = ({}) => {
+const TodoListPage: React.FC = () => {
   useInitLocalStorage();
+  const [searchText, setSearchText] = useState("");
+
   return (
     <TodoPageTemplate>
-      <TodoHeader />
+      <TodoHeader searchText={searchText} setSearchText={setSearchText} />
       <TodoFilter />
       <TodoProgressBar />
-      <TodoList />
+      <TodoList searchText={searchText} />
       <TodoModal />
     </TodoPageTemplate>
   );

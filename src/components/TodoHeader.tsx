@@ -1,31 +1,49 @@
-import useModalState from "hooks/useModalState";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { showModal } from "store/actions/modal";
-import CommonButton from "components/common/Button";
 import styled from "styled-components";
-import { ReactComponent as AddIcon } from "assets/add.svg";
-import { ReactComponent as SearchIcon } from "assets/search.svg";
+
+import CommonButton from "components/common/Button";
+import { showModal } from "store/actions/modal";
 import { Shadow } from "styles/mixin";
+import { ReactComponent as SearchIcon } from "assets/search.svg";
+import { ReactComponent as AddIcon } from "assets/add.svg";
 
-interface IProps {}
+interface IProps {
+  searchText: string;
+  setSearchText: (searchText: string) => void;
+}
 
-const TodoHeader: React.FC<IProps> = ({}) => {
+const TodoHeader: React.FC<IProps> = ({ searchText, setSearchText }) => {
   const dispatch = useDispatch();
 
+  const handleSearchTextClear = (e: React.MouseEvent<HTMLInputElement>) => {
+    // Search Input 클릭시 초기화
+    setSearchText("");
+  };
+  const handleSearchText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Search Input Update
+    setSearchText(e.target.value);
+  };
   return (
     <Header>
       <label htmlFor="search-input">
         <SearchIcon aria-label="search icon" />
       </label>
-      <SearchInput id="search-input" type="text" placeholder="Find your task"></SearchInput>
+      <SearchInput
+        value={searchText}
+        onClick={handleSearchTextClear}
+        onChange={handleSearchText}
+        id="search-input"
+        type="text"
+        placeholder="Find your task"
+      ></SearchInput>
       <TodoCreateModal onClick={() => dispatch(showModal())}>
         <AddIcon aria-label="todo creator icon" />
       </TodoCreateModal>
     </Header>
   );
 };
-export default TodoHeader;
+export default React.memo(TodoHeader);
 
 const Header = styled.header`
   display: flex;

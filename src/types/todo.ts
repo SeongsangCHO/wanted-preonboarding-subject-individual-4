@@ -2,6 +2,7 @@ export interface ITodoList {
   count: number;
   todoList: ITodo[];
   status?: string;
+  filter?: string;
 }
 
 export interface ITodo {

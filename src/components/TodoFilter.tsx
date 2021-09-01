@@ -1,8 +1,72 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+
+import CommonButton from "components/common/Button";
+import useTodoState from "hooks/useTodoState";
+import { setFilterType } from "store/actions/todo";
 
 interface IProps {}
 
 const TodoFilter: React.FC<IProps> = ({}) => {
-  return <div>filter</div>;
+  const dispatch = useDispatch();
+  const {
+    todoState: { filter, count, todoList },
+  } = useTodoState();
+  const todoCount = todoList.filter((item) => item.isCheck === false).length;
+  const handleFilter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const {
+      dataset: { type },
+    } = e.target as HTMLDivElement;
+    if (!type) return;
+    dispatch(setFilterType(type));
+  };
+  return (
+    <Container onClick={handleFilter}>
+      <AllItemFilter className={filter === "All" ? "focus" : ""} data-type="All">
+        All {count}
+      </AllItemFilter>
+      <TodoItemFilter className={filter === "Todo" ? "focus" : ""} data-type="Todo">
+        Todo {todoCount}
+      </TodoItemFilter>
+      <DoneItemFilter className={filter === "Done" ? "focus" : ""} data-type="Done">
+        Done {count - todoCount}
+      </DoneItemFilter>
+    </Container>
+  );
 };
-export default TodoFilter;
+export default React.memo(TodoFilter);
+
+const Container = styled.div`
+  display: flex;
+  margin-top: 24px;
+  & button {
+    width: 60px;
+    height: 30px;
+  }
+  & button + button {
+    margin-left: 10px;
+  }
+`;
+const AllItemFilter = styled(CommonButton)`
+  background-color: white;
+  &.focus {
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+  }
+`;
+const TodoItemFilter = styled(CommonButton)`
+  background-color: white;
+
+  &.focus {
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+  }
+`;
+const DoneItemFilter = styled(CommonButton)`
+  background-color: white;
+  &.focus {
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+  }
+`;

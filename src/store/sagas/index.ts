@@ -1,5 +1,5 @@
-//root Saga
 import { all } from "redux-saga/effects";
+
 import todoSaga from "store/sagas/todo";
 
 function* rootSaga() {

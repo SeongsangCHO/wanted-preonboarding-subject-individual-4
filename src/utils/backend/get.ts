@@ -4,8 +4,6 @@ import { getLocalStorage, setLocalStorage } from "utils/backend/storage";
 export const SELECT_TODO_LIST = (url: string): ITodoList | null => {
   const localItem = getLocalStorage("todos");
   if (localItem) {
-    console.log("localItem", localItem);
-
     return localItem;
   }
   return null;

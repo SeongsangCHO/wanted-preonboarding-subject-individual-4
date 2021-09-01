@@ -11,6 +11,7 @@ import {
   DELETE_TODO_ITEM_SUCCESS,
   EDIT_TODO_ITEM_REQUEST,
   EDIT_TODO_ITEM_SUCCESS,
+  SET_FILTER_TYPE,
 } from "store/actions/types";
 
 export const requestGetTodosList = () => {
@@ -88,8 +89,15 @@ export const editTodoItem = (data: { id: string; content: string }) => {
   };
 };
 
+export const setFilterType = (filter: string) => {
+  return {
+    type: SET_FILTER_TYPE,
+    filter,
+  };
+};
+
 export type TodoAction =
-  | ReturnType<typeof requestAddTodoItem> //Post요청 {}객체하나 던지기
+  | ReturnType<typeof requestAddTodoItem>
   | ReturnType<typeof setTodosList>
   | ReturnType<typeof failureGetTodosList>
   | ReturnType<typeof requestGetTodosList>
@@ -99,4 +107,5 @@ export type TodoAction =
   | ReturnType<typeof deleteTodoItem>
   | ReturnType<typeof requestEditTodoItem>
   | ReturnType<typeof editTodoItem>
-  | ReturnType<typeof addTodoItem>; //Post요청 {}객체하나 던지기
+  | ReturnType<typeof addTodoItem>
+  | ReturnType<typeof setFilterType>;

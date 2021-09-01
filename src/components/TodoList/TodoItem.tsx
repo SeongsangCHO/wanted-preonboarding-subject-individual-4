@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from "react";
-import { ITodo } from "types/todo";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
+
+import { ITodo } from "types/todo";
+import { dateToDday } from "utils/date";
 import {
   requestCheckTodoItem,
   requestDeleteTodoItem,
   requestEditTodoItem,
 } from "store/actions/todo";
-import { useState } from "react";
+import { Shadow } from "styles/mixin";
 import { ReactComponent as CheckIcon } from "assets/check.svg";
 import { ReactComponent as DeleteIcon } from "assets/trash.svg";
 import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as EditDoneIcon } from "assets/editdone.svg";
-import { Shadow } from "styles/mixin";
-import { dateToDday } from "utils/date";
 
 interface IProps {
   todo: ITodo;
@@ -30,6 +30,7 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
     }
   }, [isEdit]);
   const editRequest = () => {
+    //수정완료 클릭시 입력된 데이터를 LocalStorage에 반영하기 위한 트리거
     if (isEdit && todoTextRef.current) {
       dispatch(requestEditTodoItem({ id: todo.id, content: todoTextRef.current?.innerText }));
     }
@@ -76,7 +77,7 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
     </Container>
   );
 };
-export default TodoItem;
+export default React.memo(TodoItem);
 
 const Container = styled.li`
   display: flex;
@@ -85,6 +86,7 @@ const Container = styled.li`
   width: 100%;
   height: 60px;
   border-bottom: 1px solid #827a7a;
+  padding-left: 5px;
 `;
 const CheckButton = styled.button<{ isCheck: boolean; isEdit: boolean }>`
   visibility: ${(props) => (props.isEdit ? "hidden" : "")};
