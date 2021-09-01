@@ -95,6 +95,7 @@ const Container = styled.li`
 const CheckButton = styled.button<{ isCheck: boolean; isEdit: boolean }>`
   visibility: ${(props) => (props.isEdit ? "hidden" : "")};
   cursor: pointer;
+  background-color: white;
   ${Shadow}
   min-width: 40px;
   height: 40px;
@@ -172,6 +173,7 @@ const RightSide = styled.div`
   padding-top: 10px;
 `;
 const DdayText = styled.span`
+  font-size: 1em;
   margin-right: 15px;
 `;
 const DeleteButton = styled.button`

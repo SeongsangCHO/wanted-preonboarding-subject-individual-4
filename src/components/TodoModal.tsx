@@ -1,16 +1,17 @@
-import useModalState from "hooks/useModalState";
-import React, { ChangeEvent, useState } from "react";
-import { closeModal } from "store/actions/modal";
-import Portal from "./Portal/Portal";
+import React, { useState } from "react";
+import moment from "moment";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
-import { ReactComponent as Calendar } from "assets/calendar.svg";
-import "react-datepicker/dist/react-datepicker.css";
-import { requestAddTodoItem } from "store/actions/todo";
 import { useDispatch } from "react-redux";
-import { Shadow } from "styles/mixin";
+import "react-datepicker/dist/react-datepicker.css";
+
+import Portal from "components/Portal/Portal";
 import CommonButton from "components/common/Button";
-import moment from "moment";
+import useModalState from "hooks/useModalState";
+import { closeModal } from "store/actions/modal";
+import { requestAddTodoItem } from "store/actions/todo";
+import { Shadow } from "styles/mixin";
+import { ReactComponent as Calendar } from "assets/calendar.svg";
 
 interface IProps {}
 
@@ -26,7 +27,7 @@ const TodoModal: React.FC<IProps> = ({}) => {
     modalState: { showModal: showModal },
   } = useModalState();
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     //Todo Text를 입력하는 함수
     const { value } = e.target;
     setTaskText(value);
@@ -49,7 +50,6 @@ const TodoModal: React.FC<IProps> = ({}) => {
           <label htmlFor="date-picker" tabIndex={0}>
             <GoalDateText>To {moment(goalDate).format("yyyy/MM/DD")}</GoalDateText>
           </label>
-          {/* <GoalDateText>To {moment(goalDate).format("yyyy/MM/DD")}</GoalDateText> */}
           <TodoInput
             maxLength={50}
             placeholder="Add a Task"
@@ -99,8 +99,8 @@ const AddTaskButton = styled(CommonButton)`
 
 const ButtonContainer = styled.div``;
 const Bottom = styled.div`
-  display: flex;
   width: 100%;
+  display: flex;
   justify-content: space-between;
   margin-top: 15px;
 `;
@@ -156,7 +156,6 @@ const ModalContent = styled.div`
   width: 90%;
   max-width: 720px;
   padding: 20px;
-  /* height: 100px; */
   position: absolute;
   left: 50%;
   top: 20%;
