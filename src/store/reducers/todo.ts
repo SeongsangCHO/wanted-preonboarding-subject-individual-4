@@ -46,6 +46,7 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
     case ADD_TODO_ITEM_SUCCESS:
       return {
         ...state,
+        filter: FILTER_TYPE.All,
         count: state.todoList.length + 1,
         todoList: [...state.todoList, action.data],
         status: STATUS.Success,
@@ -57,6 +58,7 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
       };
     case GET_TODOS_LIST_SUCCESS:
       return {
+        ...state,
         ...action.todo,
         status: STATUS.Success,
       };
