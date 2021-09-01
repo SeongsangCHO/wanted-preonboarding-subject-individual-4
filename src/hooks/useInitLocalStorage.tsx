@@ -14,6 +14,9 @@ const useInitLocalStorage = () => {
       //전역state에서 사용하는 status를 local에 저장시키지 않기 위함
       const saveData = { ...todoState };
       delete saveData.status;
+      delete saveData.filter;
+      console.log(saveData);
+
       setLocalStorage("todos", saveData);
     }
   }, []);

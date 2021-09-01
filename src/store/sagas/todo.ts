@@ -22,9 +22,7 @@ import { ITodoList } from "types/todo";
 
 function* watchGetTodosList() {
   yield delay(1000);
-  console.log("watchGetTodosList실행");
   const res: ITodoList | null = yield call(API.getTodoList);
-  console.log(res);
   if (res === null) {
     yield put(failureGetTodosList());
   } else {

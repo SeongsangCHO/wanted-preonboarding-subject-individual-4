@@ -1,4 +1,4 @@
-import { ITodoList, ITodo } from "types/todo";
+import { ITodoList } from "types/todo";
 import { TodoAction } from "store/actions/todo";
 import {
   ADD_TODO_ITEM_SUCCESS,
@@ -9,8 +9,8 @@ import {
   CHECK_TODO_ITEM_SUCCESS,
   DELETE_TODO_ITEM_SUCCESS,
   EDIT_TODO_ITEM_SUCCESS,
+  SET_FILTER_TYPE,
 } from "store/actions/types";
-import { getLocalStorage } from "utils/backend/storage";
 
 export const STATUS = {
   Loading: "loading",
@@ -18,10 +18,20 @@ export const STATUS = {
   Failure: "failure",
 };
 
+interface IObjectIndex {
+  [key: string]: string;
+}
+export const FILTER_TYPE: IObjectIndex = {
+  All: "All",
+  Todo: "Todo",
+  Done: "Done",
+};
+
 const initState: ITodoList = {
   count: 0, //전체 데이터에 대한 카운트
   todoList: [],
   status: STATUS.Loading,
+  filter: FILTER_TYPE.All,
   // 로딩유무 추가
 };
 
@@ -82,6 +92,11 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
               }
             : item,
         ),
+      };
+    case SET_FILTER_TYPE:
+      return {
+        ...state,
+        filter: FILTER_TYPE[action.filter],
       };
     default:
       return state;
