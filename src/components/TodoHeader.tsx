@@ -26,6 +26,9 @@ const TodoHeader: React.FC<IProps> = ({ searchText, setSearchText }) => {
   };
   return (
     <Header>
+      <TodoCreateModal onClick={() => dispatch(showModal())}>
+        <AddIcon aria-label="todo creator icon" />
+      </TodoCreateModal>
       <label htmlFor="search-input">
         <SearchIcon aria-label="search icon" />
       </label>
@@ -37,9 +40,6 @@ const TodoHeader: React.FC<IProps> = ({ searchText, setSearchText }) => {
         type="text"
         placeholder="Find your task"
       ></SearchInput>
-      <TodoCreateModal onClick={() => dispatch(showModal())}>
-        <AddIcon aria-label="todo creator icon" />
-      </TodoCreateModal>
     </Header>
   );
 };
@@ -52,7 +52,7 @@ const Header = styled.header`
   & > label {
     position: absolute;
     width: 20px;
-    left: 20px;
+    left: 80px;
     top: 16px;
   }
 `;
@@ -73,7 +73,7 @@ const SearchInput = styled.input`
 
 const TodoCreateModal = styled(CommonButton)`
   width: 50px;
-  margin-left: 20px;
+  margin-right: 20px;
   color: white;
   cursor: pointer;
   background-color: ${({ theme }) => theme.colors.primary};
