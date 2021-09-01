@@ -258,11 +258,15 @@
   ```
 
 
-### ✅ 보완사항
+### ✅ 수정이 필요하다고 생각되는 부분
 
-- 수정버튼 클릭시 cursor가 제일 앞으로 위치하는 문제
+- [ ] 수정버튼 클릭시 cursor가 제일 앞으로 위치하는 문제가 있음
+현재 클릭시 contentEditable의 속성을 사용하고 있어서 발생하는 이슈
+수정버튼을 클릭하기 전엔 span으로 랜더링시키고 수정버튼 클릭시 input창으로 조건부랜더링하여 해당 이슈를 회피할 수 있을 것 같음
 
+초기에 해당 이슈 파악하지 못해 [관련 해결방법](https://stackoverflow.com/questions/6249095/how-to-set-caretcursor-position-in-contenteditable-element-div/41034697), [방법2](https://stackoverflow.com/questions/25073250/positioning-caret-in-contenteditable-reactjs-components?lq=1)을 참고. 전역객체에 접근하는 방법보다 조건부랜더링의 방법이 리액트에서 구현하기 쉽다고 생각됨
 
+- [ ] 모달의 dim 클릭시 모달 종료되도록 해야함. dim에 onClick이벤트 추가 후 클릭시 dispatch(closeModal())요청 보내면 해결할 수 있을 것 같음.
 
 [figma링크](https://www.figma.com/file/9rB3mVYsQJEpWoASfNeIj3/Untitled?node-id=0%3A1)
 
