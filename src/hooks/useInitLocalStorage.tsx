@@ -15,8 +15,6 @@ const useInitLocalStorage = () => {
       const saveData = { ...todoState };
       delete saveData.status;
       delete saveData.filter;
-      console.log(saveData);
-
       setLocalStorage("todos", saveData);
     }
   }, []);

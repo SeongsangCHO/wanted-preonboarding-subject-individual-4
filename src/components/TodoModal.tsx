@@ -6,7 +6,6 @@ import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import { ReactComponent as Calendar } from "assets/calendar.svg";
 import "react-datepicker/dist/react-datepicker.css";
-import ko from "date-fns/locale/ko";
 import { requestAddTodoItem } from "store/actions/todo";
 import { useDispatch } from "react-redux";
 import { Shadow } from "styles/mixin";
@@ -20,6 +19,7 @@ const TodoModal: React.FC<IProps> = ({}) => {
   const [goalDate, setGoalDate] = useState<Date>(moment().toDate());
   const [taskText, setTaskText] = useState("");
   const handleDate = (date: Date) => {
+    //목표일을 설정하는 함수
     setGoalDate(date);
   };
   const {
@@ -27,10 +27,12 @@ const TodoModal: React.FC<IProps> = ({}) => {
   } = useModalState();
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+    //Todo Text를 입력하는 함수
     const { value } = e.target;
     setTaskText(value);
   };
   const handleSumbit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    //입력된 Todo Text LocalStorage에 넣기 위한 트리거
     dispatch(requestAddTodoItem({ content: taskText, goalDate: moment(goalDate).toISOString() }));
     dispatch(closeModal());
     setTaskText("");
@@ -66,7 +68,7 @@ const TodoModal: React.FC<IProps> = ({}) => {
     </Portal>
   );
 };
-export default TodoModal;
+export default React.memo(TodoModal);
 const CloseButton = styled(CommonButton)`
   width: 70px;
   height: 28px;
@@ -78,6 +80,9 @@ const AddTaskButton = styled(CommonButton)`
   margin-left: 12px;
   color: white;
   background-color: ${({ theme }) => theme.colors.primary};
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primaryHover};
+  }
 `;
 
 const ButtonContainer = styled.div``;

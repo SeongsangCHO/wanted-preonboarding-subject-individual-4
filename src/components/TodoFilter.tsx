@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { setFilterType } from "store/actions/todo";
 import styled from "styled-components";
-import CommonButton from "./common/Button";
+
+import CommonButton from "components/common/Button";
+import useTodoState from "hooks/useTodoState";
+import { setFilterType } from "store/actions/todo";
 
 interface IProps {}
 
 const TodoFilter: React.FC<IProps> = ({}) => {
   const dispatch = useDispatch();
-  useEffect(() => {}, []);
+  const {
+    todoState: { filter, count, todoList },
+  } = useTodoState();
+  const todoCount = todoList.filter((item) => item.isCheck === false).length;
   const handleFilter = (e: React.MouseEvent<HTMLDivElement>) => {
     const {
       dataset: { type },
@@ -18,13 +23,19 @@ const TodoFilter: React.FC<IProps> = ({}) => {
   };
   return (
     <Container onClick={handleFilter}>
-      <AllItemFilter data-type="All">All</AllItemFilter>
-      <TodoItemFilter data-type="Todo">Todo</TodoItemFilter>
-      <DoneItemFilter data-type="Done">Done</DoneItemFilter>
+      <AllItemFilter className={filter === "All" ? "focus" : ""} data-type="All">
+        All {count}
+      </AllItemFilter>
+      <TodoItemFilter className={filter === "Todo" ? "focus" : ""} data-type="Todo">
+        Todo {todoCount}
+      </TodoItemFilter>
+      <DoneItemFilter className={filter === "Done" ? "focus" : ""} data-type="Done">
+        Done {count - todoCount}
+      </DoneItemFilter>
     </Container>
   );
 };
-export default TodoFilter;
+export default React.memo(TodoFilter);
 
 const Container = styled.div`
   display: flex;
@@ -37,6 +48,25 @@ const Container = styled.div`
     margin-left: 10px;
   }
 `;
-const AllItemFilter = styled(CommonButton)``;
-const TodoItemFilter = styled(CommonButton)``;
-const DoneItemFilter = styled(CommonButton)``;
+const AllItemFilter = styled(CommonButton)`
+  background-color: white;
+  &.focus {
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+  }
+`;
+const TodoItemFilter = styled(CommonButton)`
+  background-color: white;
+
+  &.focus {
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+  }
+`;
+const DoneItemFilter = styled(CommonButton)`
+  background-color: white;
+  &.focus {
+    background-color: ${({ theme }) => theme.colors.primary};
+    color: white;
+  }
+`;

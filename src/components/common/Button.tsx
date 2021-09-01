@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+
 import { Shadow } from "styles/mixin";
 
 interface IProps {
@@ -14,6 +15,8 @@ const CommonButton: React.FC<IProps> = ({ children, ...restProps }) => {
 export default CommonButton;
 
 const Button = styled.button`
+  transition: 0.2s;
+  cursor: pointer;
   border-radius: 10px;
   border: none;
   ${Shadow};

@@ -1,5 +1,6 @@
-import * as API from "api/todo";
 import { call, delay, takeLatest, put } from "redux-saga/effects";
+
+import * as API from "api/todo";
 import {
   addTodoItem,
   deleteTodoItem,
@@ -50,15 +51,16 @@ function* watchCheckTodoItem(action: ReturnType<typeof requestCheckTodoItem>) {
 }
 
 function* watchDeleteTodoItem(action: ReturnType<typeof requestDeleteTodoItem>) {
+  yield delay(500);
   const res: API.IResponse = yield call(API.deleteTodoItem, action.id);
-  console.log("deltee req", res);
-
   if (res.status === 200) {
     yield put(deleteTodoItem(action.id));
   }
 }
 
 function* watchEditTodoItem(action: ReturnType<typeof requestEditTodoItem>) {
+  yield delay(1000);
+
   const res: API.IResponse = yield call(API.editTodoItem, action.payload);
 }
 

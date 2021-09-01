@@ -97,7 +97,7 @@ export const setFilterType = (filter: string) => {
 };
 
 export type TodoAction =
-  | ReturnType<typeof requestAddTodoItem> //Post요청 {}객체하나 던지기
+  | ReturnType<typeof requestAddTodoItem>
   | ReturnType<typeof setTodosList>
   | ReturnType<typeof failureGetTodosList>
   | ReturnType<typeof requestGetTodosList>
@@ -107,5 +107,5 @@ export type TodoAction =
   | ReturnType<typeof deleteTodoItem>
   | ReturnType<typeof requestEditTodoItem>
   | ReturnType<typeof editTodoItem>
-  | ReturnType<typeof addTodoItem> //Post요청 {}객체하나 던지기
+  | ReturnType<typeof addTodoItem>
   | ReturnType<typeof setFilterType>;

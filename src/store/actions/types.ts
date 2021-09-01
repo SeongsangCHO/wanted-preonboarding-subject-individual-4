@@ -18,7 +18,4 @@ export const DELETE_TODO_ITEM_SUCCESS = "todos/DELETE_TODO_ITEM_SUCCESS" as cons
 export const EDIT_TODO_ITEM_REQUEST = "todos/EDIT_TODO_ITEM_REQUEST" as const;
 export const EDIT_TODO_ITEM_SUCCESS = "todos/EDIT_TODO_ITEM_SUCCESS" as const;
 
-export const FILTER_ALL = "todos/FILTER_ALL" as const;
-export const FILTER_TODO = "todos/FILTER_TODO" as const;
-export const FILTER_DONE = "todos/FILTER_DONE" as const;
 export const SET_FILTER_TYPE = "todos/SET_FILTER_TYPE" as const;
