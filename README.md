@@ -242,9 +242,6 @@
 - 페이지 마크업 및 스타일링
 
 
-### ✅ 보완사항
-
-- 수정버튼 클릭시 cursor가 제일 앞으로 위치하는 문제
 
 ### 시연영상
 
@@ -259,6 +256,12 @@
   npm i
   npm start
   ```
+
+
+### ✅ 보완사항
+
+- 수정버튼 클릭시 cursor가 제일 앞으로 위치하는 문제
+
 
 
 [figma링크](https://www.figma.com/file/9rB3mVYsQJEpWoASfNeIj3/Untitled?node-id=0%3A1)
