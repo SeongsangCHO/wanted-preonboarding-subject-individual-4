@@ -242,13 +242,26 @@
 - 페이지 마크업 및 스타일링
 
 
-### ✅ 보완사항
-
-- 수정버튼 클릭시 cursor가 제일 앞으로 위치하는 문제
 
 ### 시연영상
 
 ![vdo](https://user-images.githubusercontent.com/55486644/131706747-fdfd0928-89ba-4096-b0cc-894c44b380aa.gif)
+
+
+### 설치 및 테스트
+
+  ```shell
+  git clone https://github.com/SeongsangCHO/wanted-preonboarding-subject-individual-4.git todoList
+  cd todoList
+  npm i
+  npm start
+  ```
+
+
+### ✅ 보완사항
+
+- 수정버튼 클릭시 cursor가 제일 앞으로 위치하는 문제
+
 
 
 [figma링크](https://www.figma.com/file/9rB3mVYsQJEpWoASfNeIj3/Untitled?node-id=0%3A1)
