@@ -34,7 +34,7 @@ const TodoModal: React.FC<IProps> = ({}) => {
 
     setTaskText(value);
   };
-  const handleSumbit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSumbit = (e?: React.MouseEvent<HTMLButtonElement>) => {
     if (taskText.length >= 50) {
       return;
     }
@@ -43,6 +43,15 @@ const TodoModal: React.FC<IProps> = ({}) => {
     dispatch(closeModal());
     setTaskText("");
     setGoalDate(moment().toDate());
+  };
+
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && taskText.length < 50) {
+      handleSumbit();
+    }
+    if (e.key === "Escape") {
+      dispatch(closeModal());
+    }
   };
   if (!showModal) return <></>;
   return (
@@ -61,6 +70,8 @@ const TodoModal: React.FC<IProps> = ({}) => {
             value={taskText}
             className={taskText.length === 50 ? "input-max-length" : ""}
             onChange={handleInput}
+            onKeyUp={handleEnter}
+            autoFocus
           ></TodoInput>
           <Bottom>
             <label htmlFor="date-picker" tabIndex={0}>
