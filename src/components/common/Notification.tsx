@@ -7,6 +7,7 @@ interface IProps {
 }
 
 const Notification: React.FC<IProps> = ({ children, ...restProps }) => {
+  //알림창 컴포넌트
   return <Wrapper {...restProps}>{children}</Wrapper>;
 };
 export default Notification;

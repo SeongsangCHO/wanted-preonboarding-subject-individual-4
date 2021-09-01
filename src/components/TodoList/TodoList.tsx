@@ -13,12 +13,13 @@ interface IProps {
 const TodoList: React.FC<IProps> = ({ searchText }) => {
   const { todoState } = useTodoState();
   const filteredList = useTodoFilter(searchText);
+
   return (
     <Container>
       <ItemWrapper>
         {todoState.count > 0 && filteredList.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
         {todoState.status === "loading" && <Spinner />}
-        {todoState.status === "success" && <div></div>}
+        {todoState.count === 0 && <NoDataText>✅ Add your Task ✅ </NoDataText>}
       </ItemWrapper>
     </Container>
   );
@@ -27,3 +28,9 @@ export default React.memo(TodoList);
 
 const Container = styled.section``;
 const ItemWrapper = styled.ul``;
+
+const NoDataText = styled.span`
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+`;

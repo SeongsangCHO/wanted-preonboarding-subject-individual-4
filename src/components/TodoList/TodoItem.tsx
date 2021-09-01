@@ -12,13 +12,16 @@ import { ReactComponent as CheckIcon } from "assets/check.svg";
 import { ReactComponent as DeleteIcon } from "assets/trash.svg";
 import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as EditDoneIcon } from "assets/editdone.svg";
+import useTodoState from "hooks/useTodoState";
+import Spinner from "components/common/Spinner";
 
 interface IProps {
   todo: ITodo;
 }
 
 const TodoItem: React.FC<IProps> = ({ todo }) => {
-  const { isEdit, todoTextRef, handleEdit, maxCharactersCheck, handleEditKey } = useTodoEdit(todo);
+  const { isEdit, editText, todoTextRef, handleEdit, maxCharactersCheck, handleEditKey } =
+    useTodoEdit(todo);
 
   const dispatch = useDispatch();
   const dDay = dateToDday(todo.goalDate?.toLocaleString()!);
@@ -42,10 +45,10 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
           contentEditable={isEdit}
           suppressContentEditableWarning={true}
           ref={todoTextRef}
-          onKeyDown={handleEditKey}
+          onKeyUp={handleEditKey}
           isMaxLength={!maxCharactersCheck()}
         >
-          {todo.content}
+          {editText}
         </TodoText>
       </LeftSide>
       <RightSide>

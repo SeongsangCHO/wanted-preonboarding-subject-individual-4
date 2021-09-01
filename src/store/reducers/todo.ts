@@ -12,6 +12,7 @@ import {
   SET_FILTER_TYPE,
   DELETE_TODO_ITEM_REQUEST,
   CHECK_TODO_ITEM_REQUEST,
+  EDIT_TODO_ITEM_REQUEST,
 } from "store/actions/types";
 
 export const STATUS = {
@@ -94,12 +95,20 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
     case DELETE_TODO_ITEM_SUCCESS:
       return {
         ...state,
+        count: state.count - 1,
         todoList: state.todoList.filter((item) => item.id !== action.id),
         status: STATUS.Success,
       };
+    case EDIT_TODO_ITEM_REQUEST: {
+      return {
+        ...state,
+        status: STATUS.Loading,
+      };
+    }
     case EDIT_TODO_ITEM_SUCCESS:
       return {
         ...state,
+        status: STATUS.Success,
         todoList: state.todoList.map((item) =>
           item.id === action.payload.id
             ? {

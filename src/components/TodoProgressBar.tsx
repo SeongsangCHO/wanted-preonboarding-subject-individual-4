@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import useTodoState from "hooks/useTodoState";
-import { useEffect } from "react";
 import { Shadow } from "styles/mixin";
 
 interface IProps {}
@@ -41,9 +40,6 @@ const TodoProgressBar: React.FC<IProps> = ({}) => {
     }
   };
 
-  useEffect(() => {
-    getProgressPercent();
-  }, [todoList]);
   return (
     <Container>
       <TotalBar>

@@ -4,6 +4,7 @@ import * as API from "api/todo";
 import {
   addTodoItem,
   deleteTodoItem,
+  editTodoItem,
   failureGetTodosList,
   requestAddTodoItem,
   requestCheckTodoItem,
@@ -62,6 +63,9 @@ function* watchEditTodoItem(action: ReturnType<typeof requestEditTodoItem>) {
   yield delay(1000);
 
   const res: API.IResponse = yield call(API.editTodoItem, action.payload);
+  if (res.status === 200) {
+    yield put(editTodoItem(action.payload));
+  }
 }
 
 function* todoSaga() {

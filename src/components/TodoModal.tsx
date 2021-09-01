@@ -31,9 +31,13 @@ const TodoModal: React.FC<IProps> = ({}) => {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     //Todo Text를 입력하는 함수
     const { value } = e.target;
+
     setTaskText(value);
   };
   const handleSumbit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (taskText.length >= 50) {
+      return;
+    }
     //입력된 Todo Text LocalStorage에 넣기 위한 트리거
     dispatch(requestAddTodoItem({ content: taskText, goalDate: moment(goalDate).toISOString() }));
     dispatch(closeModal());

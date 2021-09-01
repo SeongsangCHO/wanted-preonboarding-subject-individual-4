@@ -6,6 +6,7 @@ interface IProps {
 }
 
 const TodoPageTemplate: React.FC<IProps> = ({ children }) => {
+  //todo page width, height 템플릿
   return <Container>{children}</Container>;
 };
 export default React.memo(TodoPageTemplate);
