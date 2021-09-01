@@ -251,5 +251,15 @@
 ![vdo](https://user-images.githubusercontent.com/55486644/131706747-fdfd0928-89ba-4096-b0cc-894c44b380aa.gif)
 
 
+### 설치 및 테스트
+
+  ```shell
+  git clone https://github.com/SeongsangCHO/wanted-preonboarding-subject-individual-4.git todoList
+  cd todoList
+  npm i
+  npm start
+  ```
+
+
 [figma링크](https://www.figma.com/file/9rB3mVYsQJEpWoASfNeIj3/Untitled?node-id=0%3A1)
 
