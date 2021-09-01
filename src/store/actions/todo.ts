@@ -12,6 +12,10 @@ import {
   EDIT_TODO_ITEM_REQUEST,
   EDIT_TODO_ITEM_SUCCESS,
   SET_FILTER_TYPE,
+  ADD_TODO_ITEM_FAILURE,
+  CHECK_TODO_ITEM_FAILURE,
+  DELETE_TODO_ITEM_FAILURE,
+  EDIT_TODO_ITEM_FAILURE,
 } from "store/actions/types";
 
 export const requestGetTodosList = () => {
@@ -47,6 +51,12 @@ export const addTodoItem = (data: ITodo) => {
   };
 };
 
+export const failureAddTodoItem = () => {
+  return {
+    type: ADD_TODO_ITEM_FAILURE,
+  };
+};
+
 export const requestCheckTodoItem = (id: string) => {
   return {
     type: CHECK_TODO_ITEM_REQUEST,
@@ -58,6 +68,12 @@ export const toggleCheckTodo = (id: string) => {
   return {
     type: CHECK_TODO_ITEM_SUCCESS,
     id,
+  };
+};
+
+export const failureCheckTodo = () => {
+  return {
+    type: CHECK_TODO_ITEM_FAILURE,
   };
 };
 
@@ -75,6 +91,12 @@ export const deleteTodoItem = (id: string) => {
   };
 };
 
+export const failureDeleteTodoItem = () => {
+  return {
+    type: DELETE_TODO_ITEM_FAILURE,
+  };
+};
+
 export const requestEditTodoItem = (data: { id: string; content: string }) => {
   return {
     type: EDIT_TODO_ITEM_REQUEST,
@@ -89,6 +111,12 @@ export const editTodoItem = (data: { id: string; content: string }) => {
   };
 };
 
+export const failureEditTodoItem = () => {
+  return {
+    type: EDIT_TODO_ITEM_FAILURE,
+  };
+};
+
 export const setFilterType = (filter: string) => {
   return {
     type: SET_FILTER_TYPE,
@@ -98,14 +126,18 @@ export const setFilterType = (filter: string) => {
 
 export type TodoAction =
   | ReturnType<typeof requestAddTodoItem>
+  | ReturnType<typeof addTodoItem>
+  | ReturnType<typeof failureAddTodoItem>
+  | ReturnType<typeof requestGetTodosList>
   | ReturnType<typeof setTodosList>
   | ReturnType<typeof failureGetTodosList>
-  | ReturnType<typeof requestGetTodosList>
-  | ReturnType<typeof toggleCheckTodo>
   | ReturnType<typeof requestCheckTodoItem>
+  | ReturnType<typeof toggleCheckTodo>
+  | ReturnType<typeof failureCheckTodo>
   | ReturnType<typeof requestDeleteTodoItem>
   | ReturnType<typeof deleteTodoItem>
+  | ReturnType<typeof failureDeleteTodoItem>
   | ReturnType<typeof requestEditTodoItem>
   | ReturnType<typeof editTodoItem>
-  | ReturnType<typeof addTodoItem>
+  | ReturnType<typeof failureEditTodoItem>
   | ReturnType<typeof setFilterType>;

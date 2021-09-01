@@ -13,6 +13,10 @@ import {
   DELETE_TODO_ITEM_REQUEST,
   CHECK_TODO_ITEM_REQUEST,
   EDIT_TODO_ITEM_REQUEST,
+  ADD_TODO_ITEM_FAILURE,
+  CHECK_TODO_ITEM_FAILURE,
+  DELETE_TODO_ITEM_FAILURE,
+  EDIT_TODO_ITEM_FAILURE,
 } from "store/actions/types";
 
 export const STATUS = {
@@ -52,6 +56,11 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
         todoList: [...state.todoList, action.data],
         status: STATUS.Success,
       };
+    case ADD_TODO_ITEM_FAILURE:
+      return {
+        ...state,
+        status: STATUS.Failure,
+      };
     case GET_TODOS_LIST_REQUEST:
       return {
         ...state,
@@ -73,7 +82,6 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
         ...state,
         status: STATUS.Loading,
       };
-
     case CHECK_TODO_ITEM_SUCCESS:
       return {
         ...state,
@@ -87,6 +95,11 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
             : item,
         ),
       };
+    case CHECK_TODO_ITEM_FAILURE:
+      return {
+        ...state,
+        status: STATUS.Failure,
+      };
     case DELETE_TODO_ITEM_REQUEST:
       return {
         ...state,
@@ -98,6 +111,11 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
         count: state.count - 1,
         todoList: state.todoList.filter((item) => item.id !== action.id),
         status: STATUS.Success,
+      };
+    case DELETE_TODO_ITEM_FAILURE:
+      return {
+        ...state,
+        status: STATUS.Failure,
       };
     case EDIT_TODO_ITEM_REQUEST: {
       return {
@@ -117,6 +135,11 @@ const TodoReducer = (state = initState, action: TodoAction): ITodoList => {
               }
             : item,
         ),
+      };
+    case EDIT_TODO_ITEM_FAILURE:
+      return {
+        ...state,
+        status: STATUS.Failure,
       };
     case SET_FILTER_TYPE:
       return {

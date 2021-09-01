@@ -5,6 +5,9 @@ import {
   addTodoItem,
   deleteTodoItem,
   editTodoItem,
+  failureCheckTodo,
+  failureDeleteTodoItem,
+  failureEditTodoItem,
   failureGetTodosList,
   requestAddTodoItem,
   requestCheckTodoItem,
@@ -47,7 +50,7 @@ function* watchCheckTodoItem(action: ReturnType<typeof requestCheckTodoItem>) {
   if (res.status === 200) {
     yield put(toggleCheckTodo(action.id));
   } else {
-    //실패처리
+    yield put(failureCheckTodo());
   }
 }
 
@@ -56,6 +59,8 @@ function* watchDeleteTodoItem(action: ReturnType<typeof requestDeleteTodoItem>) 
   const res: API.IResponse = yield call(API.deleteTodoItem, action.id);
   if (res.status === 200) {
     yield put(deleteTodoItem(action.id));
+  } else {
+    yield put(failureDeleteTodoItem());
   }
 }
 
@@ -65,6 +70,8 @@ function* watchEditTodoItem(action: ReturnType<typeof requestEditTodoItem>) {
   const res: API.IResponse = yield call(API.editTodoItem, action.payload);
   if (res.status === 200) {
     yield put(editTodoItem(action.payload));
+  } else {
+    yield put(failureEditTodoItem());
   }
 }
 
