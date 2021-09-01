@@ -87,6 +87,10 @@ const Container = styled.li`
   height: 60px;
   border-bottom: 1px solid #827a7a;
   padding-left: 5px;
+  font-size: 20px;
+  @media screen and (max-width: 767px) {
+    font-size: 14px;
+  }
 `;
 const CheckButton = styled.button<{ isCheck: boolean; isEdit: boolean }>`
   visibility: ${(props) => (props.isEdit ? "hidden" : "")};
@@ -122,12 +126,12 @@ const EditButton = styled.button`
   border: none;
   background-color: white;
   & svg.edit {
-    width: 32px;
-    height: 32px;
+    width: 1.5em;
+    height: 1.5em;
   }
   & svg.edit-done {
-    width: 32px;
-    height: 32px;
+    width: 1.5em;
+    height: 1.5em;
   }
 `;
 const LeftSide = styled.div`
@@ -152,8 +156,10 @@ const TodoText = styled.span<{ isCheck: boolean }>`
       text-decoration-line: line-through;
       color: ${({ theme }) => theme.colors.gray};
     `}
+
+  font-size: 1em;
   @media screen and (max-width: 767px) {
-    max-width: 220px;
+    max-width: 100px;
   }
   @media screen and (min-width: 768px) {
     max-width: 480px;
@@ -172,7 +178,7 @@ const DeleteButton = styled.button`
   border: none;
   background-color: white;
   & svg.delete {
-    width: 32px;
-    height: 32px;
+    width: 1.5em;
+    height: 1.5em;
   }
 `;

@@ -42,9 +42,21 @@ const TodoModal: React.FC<IProps> = ({}) => {
   return (
     <Portal>
       <TodoModalDim>
+        <Notification className={taskText.length === 50 ? "input-max-length" : ""}>
+          Max 50 characters
+        </Notification>
         <ModalContent>
-          <GoalDateText>Goal Date - {moment(goalDate).format("yyyy/MM/DD")}</GoalDateText>
-          <TodoInput placeholder="Add a Task" value={taskText} onChange={handleInput}></TodoInput>
+          <label htmlFor="date-picker" tabIndex={0}>
+            <GoalDateText>To {moment(goalDate).format("yyyy/MM/DD")}</GoalDateText>
+          </label>
+          {/* <GoalDateText>To {moment(goalDate).format("yyyy/MM/DD")}</GoalDateText> */}
+          <TodoInput
+            maxLength={50}
+            placeholder="Add a Task"
+            value={taskText}
+            className={taskText.length === 50 ? "input-max-length" : ""}
+            onChange={handleInput}
+          ></TodoInput>
           <Bottom>
             <label htmlFor="date-picker" tabIndex={0}>
               <Calendar />
@@ -105,12 +117,26 @@ const TodoInput = styled.input`
     outline: none;
     border: 1px solid ${({ theme }) => theme.colors.primary};
   }
+  &.input-max-length {
+    border: 2px solid red;
+  }
 `;
 
 const GoalDateText = styled.span`
+  line-height: 34px;
+  height: 30px;
+  padding: 0 10px;
   position: absolute;
-  top: 20px;
   left: 20px;
+  top: 10px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: white;
+  border-radius: 11px;
+  cursor: pointer;
+  font-size: 14px;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primaryHover};
+  }
 `;
 
 const StyledDatePicker = styled(DatePicker)`
@@ -147,4 +173,17 @@ const TodoModalDim = styled.div`
   top: 0;
   overflow-y: hidden;
   background-color: rgba(255, 255, 255, 0.7);
+`;
+
+const Notification = styled.div`
+  opacity: 0;
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transition: 1s;
+  &.input-max-length {
+    opacity: 1;
+    top: 15%;
+  }
+  transform: translate(-50%, 0);
 `;
