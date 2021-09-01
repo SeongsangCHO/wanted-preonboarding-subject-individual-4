@@ -53,10 +53,18 @@ const TodoModal: React.FC<IProps> = ({}) => {
       dispatch(closeModal());
     }
   };
+  const handleDimClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const {
+      dataset: { type },
+    } = e.target as HTMLDivElement;
+    if (type === "modal-dim") {
+      dispatch(closeModal());
+    }
+  };
   if (!showModal) return <></>;
   return (
     <Portal>
-      <TodoModalDim>
+      <TodoModalDim data-type="modal-dim" onClick={handleDimClick}>
         <Notification className={taskText.length === 50 ? "input-max-length" : ""}>
           Max 50 characters
         </Notification>

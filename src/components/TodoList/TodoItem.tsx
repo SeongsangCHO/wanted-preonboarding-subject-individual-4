@@ -12,8 +12,6 @@ import { ReactComponent as CheckIcon } from "assets/check.svg";
 import { ReactComponent as DeleteIcon } from "assets/trash.svg";
 import { ReactComponent as EditIcon } from "assets/edit.svg";
 import { ReactComponent as EditDoneIcon } from "assets/editdone.svg";
-import useTodoState from "hooks/useTodoState";
-import Spinner from "components/common/Spinner";
 
 interface IProps {
   todo: ITodo;
