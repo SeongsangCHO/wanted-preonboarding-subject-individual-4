@@ -1,4 +1,4 @@
-# 페이위크 기업과제 🧑‍💻 [배포주소](https://paywork-todolist.netlify.app/)
+# 페이워크 기업과제 🧑‍💻 [배포주소](https://paywork-todolist.netlify.app/)
 
 
 <br/>
