@@ -18,8 +18,15 @@ interface IProps {
 }
 
 const TodoItem: React.FC<IProps> = ({ todo }) => {
-  const { isEdit, editText, todoTextRef, handleEdit, maxCharactersCheck, handleEditKey } =
-    useTodoEdit(todo);
+  const {
+    isEdit,
+    editText,
+    todoTextRef,
+    handleEdit,
+    maxCharactersCheck,
+    handleEditKey,
+    handleEnterKey,
+  } = useTodoEdit(todo);
   const dispatch = useDispatch();
 
   const dDay = dateToDday(todo.goalDate?.toLocaleString()!);
@@ -39,16 +46,18 @@ const TodoItem: React.FC<IProps> = ({ todo }) => {
         >
           <CheckIcon className="check" />
         </CheckButton>
-        <TodoText
-          isCheck={todo.isCheck}
-          contentEditable={isEdit}
-          suppressContentEditableWarning={true}
-          ref={todoTextRef}
-          onKeyUp={handleEditKey}
-          isMaxLength={!maxCharactersCheck()}
-        >
-          {editText}
-        </TodoText>
+        {isEdit ? (
+          <TodoTextInput
+            value={editText}
+            onChange={handleEditKey}
+            onKeyUp={handleEnterKey}
+            isMaxLength={!maxCharactersCheck()}
+          ></TodoTextInput>
+        ) : (
+          <TodoText isCheck={todo.isCheck} ref={todoTextRef}>
+            {editText}
+          </TodoText>
+        )}
       </LeftSide>
       <RightSide>
         <DdayText>{dDay === 0 ? "Until Today" : `D-${dDay}`}</DdayText>
@@ -131,7 +140,7 @@ const LeftSide = styled.div`
   display: flex;
   justify-content: center;
 `;
-const TodoText = styled.span<{ isCheck: boolean; isMaxLength: boolean }>`
+const TodoText = styled.span<{ isCheck?: boolean; isMaxLength?: boolean }>`
   width: 100%;
   max-width: 400px;
   line-height: 40px;
@@ -185,4 +194,15 @@ const DeleteButton = styled.button`
       fill: ${({ theme }) => theme.colors.primary};
     }
   }
+`;
+
+const TodoTextInput = styled.input<{ isCheck?: boolean; isMaxLength?: boolean }>`
+  width: 100%;
+  max-width: 400px;
+  line-height: 40px;
+  margin-left: 10px;
+  font-size: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;

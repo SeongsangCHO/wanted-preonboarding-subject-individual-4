@@ -31,15 +31,16 @@ const useTodoEdit = (todo: ITodo) => {
       editRequest();
     }
   };
-  const handleEditKey = (e: React.KeyboardEvent<HTMLSpanElement>) => {
-    //enterkey 또는 키 입력시 editText를 업데이트하는 함수
+  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && maxCharactersCheck()) {
       setIsEdit(false);
       editRequest();
-    } else {
-      const target = e.target as HTMLInputElement;
-      setEditText(target.innerText);
     }
+  };
+
+  const handleEditKey = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    setEditText(target.value);
   };
 
   return {
@@ -50,6 +51,7 @@ const useTodoEdit = (todo: ITodo) => {
     handleEdit,
     maxCharactersCheck,
     handleEditKey,
+    handleEnterKey,
   };
 };
 
